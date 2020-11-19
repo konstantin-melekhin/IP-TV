@@ -208,6 +208,10 @@ Public Class IP_TV_Print
         End If
     End Sub
 
+    Private Sub GB_HomePos_Enter(sender As Object, e As EventArgs) Handles GB_HomePos.Enter
+
+    End Sub
+
     Private Function SearchSNForPrint(SerchParametr As Integer) As ArrayList
         Dim SN As New ArrayList()
         Select Case SerchParametr
