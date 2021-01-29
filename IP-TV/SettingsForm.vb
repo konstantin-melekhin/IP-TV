@@ -142,12 +142,20 @@ Public Class SettingsForm
         If DG_LOTListPresent.Rows.Count <> 0 Then
             LOTID = DG_LOTListPresent.Item(3, selRowNum).Value
             Select Case PCInfo(6)
+                Case 6
+                    Dim WF As New PackingStation(LOTID, IDApp)
+                    WF.Controllabel.Text = ""
+                    WF.Show()
                 Case 26
                     Dim WF As New IP_TV_Print(LOTID, IDApp)
                     WF.Controllabel.Text = ""
                     WF.Show()
                 Case 28
                     Dim WF As New Quarantine(LOTID, IDApp)
+                    WF.Controllabel.Text = ""
+                    WF.Show()
+                Case 30
+                    Dim WF As New AssemblyNumbers(LOTID, IDApp)
                     WF.Controllabel.Text = ""
                     WF.Show()
             End Select

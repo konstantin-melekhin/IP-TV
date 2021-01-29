@@ -77,6 +77,12 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyNumbers.Designer.vb">
+      <DependentUpon>AssemblyNumbers.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AssemblyNumbers.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="IP_TV_Print.Designer.vb">
       <DependentUpon>IP_TV_Print.vb</DependentUpon>
     </Compile>
@@ -84,6 +90,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="LabelsToPrint.vb" />
+    <Compile Include="PackingStation.Designer.vb">
+      <DependentUpon>PackingStation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="PackingStation.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Quarantine.Designer.vb">
       <DependentUpon>Quarantine.vb</DependentUpon>
     </Compile>
@@ -116,6 +128,9 @@
     <Compile Include="Work_Function.vb" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AssemblyNumbers.resx">
+      <DependentUpon>AssemblyNumbers.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="IP_TV_Print.resx">
       <DependentUpon>IP_TV_Print.vb</DependentUpon>
     </EmbeddedResource>
@@ -124,6 +139,9 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PackingStation.resx">
+      <DependentUpon>PackingStation.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Quarantine.resx">
       <DependentUpon>Quarantine.vb</DependentUpon>

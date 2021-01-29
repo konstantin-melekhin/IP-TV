@@ -135,7 +135,7 @@ Public Class IP_TV_Print
         Dim Mess As New ArrayList()
         If e.KeyCode = Keys.Enter And SerialTextBox.TextLength = LenSN And CB_SelectLabel.SelectedIndex = 0 Then
             'печать Этикетки 45х8 и 39х19
-            SNID = AddSNToDB(SerialTextBox.Text)
+            SNID = AddSNToDB(SerialTextBox.Text) ' Z12300502043010009725376
             If PrintSN(SearchSNForPrint(0), CB_SelectLabel.SelectedIndex) = True Then
                 OperLogUpd(SNID, 26, 2, "Этикетки 45х8 и 39х19")
             End If

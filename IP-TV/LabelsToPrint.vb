@@ -18,8 +18,8 @@
                 COM6.Open()
                 COM6.Write(StrToPrint) 'ответ в COM порт
                 COM6.Close()
-
-                StrToPrint = "
+                Dim StrToPrintText2 As String
+                StrToPrintText2 = "
 ^XA~TA000~JSN^LT0^MNW^MTT^PON^PMN^LH0,0^JMA^JUS^LRN^CI0^XZ
 ^XA
 ^MMT
@@ -29,14 +29,14 @@
 ^BY2,3,56^FT" & 31 + x & "," & 130 + y & "^BCN,,N,N
 ^FD>:" & Mid(SN(1), 1, 2) & ">5" & Mid(SN(1), 3) & "^FS
 ^FT" & 24 + x & "," & 70 + y & "^A0N,29,28^FH\^FDS/N:^FS
-^FT77,70^A0N,29,28^FH\^FD" & SN(1) & "^FS
+^FT" & 77 + x & "," & 70 + y & "^A0N,29,28^FH\^FD" & SN(1) & "^FS
 ^BY2,3,41^FT" & 31 + x & "," & 209 + y & "^BCN,,N,N
 ^FD>:" & SN(2) & "^FS
 ^FT" & 24 + x & "," & 165 + y & "^A0N,29,28^FH\^FDMAC:^FS
 ^FT" & 86 + x & "," & 165 + y & "^A0N,29,28^FH\^FD" & SN(3) & "^FS
 ^PQ1,0,1,Y^XZ"
                 COM3.Open()
-                COM3.Write(StrToPrint) 'ответ в COM порт
+                COM3.Write(StrToPrintText2) 'ответ в COM порт
                 COM3.Close()
 
             Case 1 '"Этикетка 44х21_Rus"

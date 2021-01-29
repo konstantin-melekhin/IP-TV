@@ -23,6 +23,7 @@ Partial Class Quarantine
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Quarantine))
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
@@ -150,6 +151,7 @@ Partial Class Quarantine
         '
         Me.BT_CloseErrMode.FlatAppearance.BorderSize = 0
         Me.BT_CloseErrMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BT_CloseErrMode.Image = Global.IP_TV.My.Resources.Resources.icons8_стрелка_влево_в_круге_2_64
         Me.BT_CloseErrMode.Location = New System.Drawing.Point(536, 19)
         Me.BT_CloseErrMode.Name = "BT_CloseErrMode"
         Me.BT_CloseErrMode.Size = New System.Drawing.Size(53, 55)
@@ -172,6 +174,7 @@ Partial Class Quarantine
         '
         Me.BT_SeveErCode.FlatAppearance.BorderSize = 0
         Me.BT_SeveErCode.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BT_SeveErCode.Image = Global.IP_TV.My.Resources.Resources._3floppy_mount
         Me.BT_SeveErCode.Location = New System.Drawing.Point(517, 250)
         Me.BT_SeveErCode.Name = "BT_SeveErCode"
         Me.BT_SeveErCode.Size = New System.Drawing.Size(72, 79)
@@ -235,7 +238,7 @@ Partial Class Quarantine
         '
         Me.BT_Pass.FlatAppearance.BorderSize = 0
         Me.BT_Pass.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BT_Pass.Image = Global.IP_TV.My.Resources.Resources.agt_action_success__1_
+        Me.BT_Pass.Image = CType(resources.GetObject("BT_Pass.Image"), System.Drawing.Image)
         Me.BT_Pass.Location = New System.Drawing.Point(17, 17)
         Me.BT_Pass.Name = "BT_Pass"
         Me.BT_Pass.Size = New System.Drawing.Size(97, 91)
@@ -247,7 +250,7 @@ Partial Class Quarantine
         '
         Me.BT_Fail.FlatAppearance.BorderSize = 0
         Me.BT_Fail.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BT_Fail.Image = Global.IP_TV.My.Resources.Resources.agt_action_fail__1_
+        Me.BT_Fail.Image = CType(resources.GetObject("BT_Fail.Image"), System.Drawing.Image)
         Me.BT_Fail.Location = New System.Drawing.Point(833, 17)
         Me.BT_Fail.Name = "BT_Fail"
         Me.BT_Fail.Size = New System.Drawing.Size(87, 91)
@@ -606,6 +609,7 @@ Partial Class Quarantine
         Me.Label15.Size = New System.Drawing.Size(155, 31)
         Me.Label15.TabIndex = 1
         Me.Label15.Text = "Тест FAIL:"
+        Me.Label15.Visible = False
         '
         'Label14
         '
@@ -617,6 +621,7 @@ Partial Class Quarantine
         Me.Label14.Size = New System.Drawing.Size(158, 31)
         Me.Label14.TabIndex = 1
         Me.Label14.Text = "Тест Pass:"
+        Me.Label14.Visible = False
         '
         'Label17
         '
@@ -627,6 +632,7 @@ Partial Class Quarantine
         Me.Label17.Size = New System.Drawing.Size(187, 31)
         Me.Label17.TabIndex = 1
         Me.Label17.Text = "Yield по лоту"
+        Me.Label17.Visible = False
         '
         'LB_Procent
         '
@@ -637,6 +643,7 @@ Partial Class Quarantine
         Me.LB_Procent.Size = New System.Drawing.Size(68, 55)
         Me.LB_Procent.TabIndex = 0
         Me.LB_Procent.Text = "%"
+        Me.LB_Procent.Visible = False
         '
         'LB_Yield
         '
@@ -647,6 +654,7 @@ Partial Class Quarantine
         Me.LB_Yield.Size = New System.Drawing.Size(178, 55)
         Me.LB_Yield.TabIndex = 0
         Me.LB_Yield.Text = "100,00"
+        Me.LB_Yield.Visible = False
         '
         'Label10
         '
@@ -829,6 +837,7 @@ Partial Class Quarantine
         Me.LB_FailLotRes.Size = New System.Drawing.Size(46, 31)
         Me.LB_FailLotRes.TabIndex = 0
         Me.LB_FailLotRes.Text = "99"
+        Me.LB_FailLotRes.Visible = False
         '
         'LB_PassLotRes
         '
@@ -840,6 +849,7 @@ Partial Class Quarantine
         Me.LB_PassLotRes.Size = New System.Drawing.Size(46, 31)
         Me.LB_PassLotRes.TabIndex = 0
         Me.LB_PassLotRes.Text = "99"
+        Me.LB_PassLotRes.Visible = False
         '
         'GroupBox1
         '
@@ -968,7 +978,7 @@ Partial Class Quarantine
         '
         Me.BT_CleareSN.FlatAppearance.BorderSize = 0
         Me.BT_CleareSN.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BT_CleareSN.Image = Global.IP_TV.My.Resources.Resources.edittrash
+        Me.BT_CleareSN.Image = CType(resources.GetObject("BT_CleareSN.Image"), System.Drawing.Image)
         Me.BT_CleareSN.Location = New System.Drawing.Point(703, 15)
         Me.BT_CleareSN.Name = "BT_CleareSN"
         Me.BT_CleareSN.Size = New System.Drawing.Size(66, 94)
@@ -1011,6 +1021,7 @@ Partial Class Quarantine
         '
         Me.BT_OpenSettings.FlatAppearance.BorderSize = 0
         Me.BT_OpenSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BT_OpenSettings.Image = Global.IP_TV.My.Resources.Resources.package_utilities
         Me.BT_OpenSettings.Location = New System.Drawing.Point(1231, 228)
         Me.BT_OpenSettings.Name = "BT_OpenSettings"
         Me.BT_OpenSettings.Size = New System.Drawing.Size(82, 81)
@@ -1066,7 +1077,7 @@ Partial Class Quarantine
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1854, 926)
+        Me.ClientSize = New System.Drawing.Size(2206, 926)
         Me.Controls.Add(Me.GB_ErrorCode)
         Me.Controls.Add(Me.GB_UserData)
         Me.Controls.Add(Me.GB_PCBInfoMode)

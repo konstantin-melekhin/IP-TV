@@ -4,13 +4,14 @@ Public Class Quarantine
 
 
     Dim LOTID, IDApp As Integer
-    Dim LenSN, StartStepID As Integer, PreStepID As Integer, NextStepID As Integer
+    Dim LenSN, LenSmtSN, StartStepID As Integer, PreStepID As Integer, NextStepID As Integer
     Dim StartStep As String, PreStep As String, NextStep As String
     Dim PCInfo As New ArrayList() 'PCInfo = (App_ID, App_Caption, lineID, LineName, StationName,CT_ScanStep)
     Dim LOTInfo As New ArrayList() 'LOTInfo = (Model,LOT,SMTRangeChecked,SMTStartRange,SMTEndRange,ParseLog)
     Dim ShiftCounterInfo As New ArrayList() 'ShiftCounterInfo = (ShiftCounterID,ShiftCounter,LOTCounter)
     Dim StepSequence As String()
     Dim Yield As Double
+    Dim SNFormat As ArrayList
     Public Sub New(LOTIDWF As Integer, IDApp As Integer)
         InitializeComponent()
         Me.LOTID = LOTIDWF
@@ -36,6 +37,7 @@ Public Class Quarantine
                         "CT_ScanStep = " & PCInfo(7) & vbCrLf 'PCInfo
         'получение данных о текущем лоте
         LOTInfo = GetCurrentContractLot(LOTID)
+        LenSmtSN = GetLenSN(LOTInfo(3))
         LenSN = GetLenSN(LOTInfo(8))
         TextBox2.Text = "Model = " & LOTInfo(0) & vbCrLf &
                         "LOT = " & LOTInfo(1) & vbCrLf &
@@ -75,20 +77,20 @@ Public Class Quarantine
         CurrentTimeTimer.Start()
         ShiftCounterInfo = ShiftCounterStart(PCInfo(4), IDApp, LOTID)
         Label_ShiftCounter.Text = ShiftCounterInfo(1)
-        YieldCounter()
+        'YieldCounter()
     End Sub 'Загрузка рабочей формы
     'Счетчик Yield
-    Private Sub YieldCounter()
+    'Private Sub YieldCounter()
 
-        Yield = (ShiftCounterInfo(3) / (ShiftCounterInfo(3) + ShiftCounterInfo(4))) * 100
-        LB_PassLotRes.Text = ShiftCounterInfo(3)
-        LB_FailLotRes.Text = ShiftCounterInfo(4)
-        If ShiftCounterInfo(3) = 0 And ShiftCounterInfo(4) = 0 Then
-            LB_Yield.Text = 100
-        Else
-            LB_Yield.Text = Yield.ToString("00.00")
-        End If
-    End Sub
+    '    Yield = (ShiftCounterInfo(3) / (ShiftCounterInfo(3) + ShiftCounterInfo(4))) * 100
+    '    LB_PassLotRes.Text = ShiftCounterInfo(3)
+    '    LB_FailLotRes.Text = ShiftCounterInfo(4)
+    '    If ShiftCounterInfo(3) = 0 And ShiftCounterInfo(4) = 0 Then
+    '        LB_Yield.Text = 100
+    '    Else
+    '        LB_Yield.Text = Yield.ToString("00.00")
+    '    End If
+    'End Sub
     'Часы в программе
     Private Sub CurrentTimeTimer_Tick(sender As Object, e As EventArgs) Handles CurrentTimeTimer.Tick
         CurrrentTimeLabel.Text = TimeString
@@ -131,66 +133,128 @@ Public Class Quarantine
     '_________________________________________________________________________________________________________________
     'начало работы приложения FAS Quarantine Station
     'окно ввода серийного номера платы
+    Dim NumID As New ArrayList
     Private Sub SerialTextBox_KeyDown(sender As Object, e As KeyEventArgs) Handles SerialTextBox.KeyDown
-        Dim Mess As New ArrayList()
-        If e.KeyCode = Keys.Enter And SerialTextBox.TextLength = LenSN Then
-            AddSNToDB(SerialTextBox.Text) 'SNID
-            'если введен не верный номер
-        ElseIf e.KeyCode = Keys.Enter Then
-            PrintLabel(Controllabel, SerialTextBox.Text & " не верный номер", 12, 193, Color.Red)
-            CurrentLogUpdate(Label_ShiftCounter.Text, SerialTextBox.Text, "Ошибка", "", "Плата имеет не верный номер")
-            SerialTextBox.Enabled = False
-            BT_Pause.Focus()
+        If e.KeyCode = Keys.Enter Then
+            'определение формата номера
+            If GetFTSN(False) = True Then
+                NumID = SearchNumberID(SerialTextBox.Text)
+                If NumID(0) = True Then
+                    BT_Fail_Click(sender, e)
+                End If
+            End If
         End If
     End Sub
     '
-    'добавляет серийный номер в Ct_FASSN_reg, и возвращает SNID
-    Dim SNID As Integer
-    Private Sub AddSNToDB(SN As String)
-        SNID = SelectInt("USE FAS SELECT [ID] FROM [FAS].[dbo].[Ct_FASSN_reg] where SN = '" & SN & "'")
-        If SNID = 0 Then
-            SNID = SelectInt($"USE FAS {vbCrLf}
-                       insert into [FAS].[dbo].[Ct_FASSN_reg] ([SN],[LOTID],[UserID],[AppID],[LineID],[RegDate]) values{vbCrLf}
-                       ('{SN}',{ LOTID },{UserInfo(0)},{PCInfo(0)},{PCInfo(2)}, CURRENT_TIMESTAMP){vbCrLf}
-                       WAITFOR delay '00:00:00:100'{vbCrLf}
-                       SELECT [ID] FROM [FAS].[dbo].[Ct_FASSN_reg] where SN = '{SN}'")
-        End If
-        If SNID <> 0 Then
-            SelectAction()
+
+    '1. Определение формата номера
+    Private Function GetFTSN(SingleSN As Boolean) As Boolean
+        Dim col As Color, Mess As String, Res As Boolean
+        SNFormat = New ArrayList()
+        SNFormat = GetSNFormat(LOTInfo(3), LOTInfo(8), SerialTextBox.Text, LOTInfo(18), LOTInfo(2), LOTInfo(7))
+        Res = SNFormat(0)
+        Mess = SNFormat(3)
+        'SNFormat(0) ' Результат проверки True/False
+        'SNFormat(1) ' 1 - SMT/ 2 - FAS / 3 - Неопределен
+        'SNFormat(2) ' Переменный номер
+        'SNFormat(3) ' Текст сообщения
+        col = If(Res = False, Color.Red, Color.Green)
+        PrintLabel(Controllabel, Mess, 12, 193, col)
+        SNTBEnabled(Res)
+        Return Res
+    End Function
+
+    '2. Поиск PCBSN or SNID
+    Private Function SearchNumberID(SN As String) As ArrayList
+        Dim SNID, PCBID As Integer
+        Dim Res As New ArrayList()
+        Select Case SNFormat(1)
+            Case 1
+                PCBID = SelectInt($"use SMDCOMPONETS  select IDLaser from SMDCOMPONETS.dbo.LazerBase where Content = '{SN}'")
+                Res.Add(PCBID <> 0)
+                Res.Add(PCBID)
+            Case 2
+                SNID = SelectInt($"USE FAS SELECT [ID] FROM [FAS].[dbo].[Ct_FASSN_reg] where SN = '{SN}'")
+                Res.Add(SNID <> 0)
+                Res.Add(SNID)
+        End Select
+        Return Res
+    End Function
+    '3. функция обноления результата тестирования для Pass/Fail
+    Private Function UpdateStepRes(StepID As Integer, StepRes As Integer, NumID As Integer, FormatSN As Integer)
+        Dim Message As String
+        Dim MesColor As Color
+        Dim ErrCode As New ArrayList()
+
+
+        Select Case FormatSN
+            Case 2
+
+                NumID = SelectInt($"USE FAS Select PCBID from [FAS].[dbo].[Ct_StepResult] where SNID =  { NumID }")
+                If NumID = 0 Then
+                    PrintLabel(Controllabel, "Номер не привязан к плате!", 12, 193, Color.Red)
+                    CurrentLogUpdate(Label_ShiftCounter.Text, SerialTextBox.Text, "Ошибка", "", $"Номер не привязан к плате!")
+                    SNTBEnabled(False)
+                    GB_ErrorCode.Visible = False
+                    BT_Pass.Visible = False
+                    BT_Fail.Visible = False
+                    DG_UpLog.Visible = True
+                    TB_Description.Clear()
+                    Return False
+                    Exit Function
+                End If
+        End Select
+        ShiftCounter(3)
+        Select Case StepRes
+            Case 3
+                ErrCode = GetErrorCode()
+                Message = "Приемник " & SerialTextBox.Text & " не прошёл этап тестирования!" &
+                   vbCrLf & "Передайте приемник в ремонт!"
+                MesColor = Color.Red
+                CurrentLogUpdate(Label_ShiftCounter.Text, SerialTextBox.Text, "Карантин", ErrCode(1), "Приемник не прошёл этап тестирования!" &
+                  vbCrLf & "Передайте приемник в ремонт!")
+        End Select
+        RunCommand($"USE FAS Update [FAS].[dbo].[Ct_StepResult] 
+                    set StepID = 28, TestResult = 3, ScanDate = CURRENT_TIMESTAMP, SNID = Null  
+                    where PCBID =  { NumID }")
+        RunCommand($"insert into [FAS].[dbo].[Ct_OperLog] ([PCBID],[LOTID],[StepID],[TestResultID],[StepDate],
+                    [StepByID],[LineID],[ErrorCodeID],[Descriptions])values
+                    ( {NumID} , {LOTID} , {StepID} , {StepRes} ,CURRENT_TIMESTAMP,
+                    {UserInfo(0)} ,{PCInfo(2)} ,
+                        {If(StepRes = 3, ErrCode(0), "Null")} ,
+                        {If(StepRes = 3, If(TB_Description.Text = "", "Null", "'" & TB_Description.Text & "'"), "Null")} )")
+
+
+        PrintLabel(Controllabel, Message, 12, 193, MesColor)
+        Return True
+    End Function
+
+    '4. Кнопка Сохранения кода ошибки
+    Private Sub BT_SeveErCode_Click(sender As Object, e As EventArgs) Handles BT_SeveErCode.Click
+        If CB_ErrorCode.Text = "" Then
+            MsgBox("Укажите код ошибки")
+        Else
+
+            If UpdateStepRes(PCInfo(6), 3, NumID(1), SNFormat(1)) = True Then
+
+                BT_CleareSN_Click(sender, e)
+            End If
+            CB_ErrorCode.Text = ""
         End If
     End Sub
-    'запись в опер лог
+
+    '5.запись в опер лог
     Private Sub OperLogUpd(_SNID As Integer, StepID As Integer, StepRes As Integer, Descr As String)
         RunCommand($"insert into [FAS].[dbo].[Ct_OperLog] ([LOTID],[StepID],[TestResultID],[StepDate],
                     [StepByID],[LineID],[SNID],[Descriptions])values
                     ({LOTID},{StepID},{StepRes},CURRENT_TIMESTAMP,{ UserInfo(0) },{ PCInfo(2) },{ _SNID },'{ Descr }')")
     End Sub
-    'выбрать действие Pass\Fail
-    Private Sub SelectAction()
-        BT_Pass.Visible = True
-        BT_Fail.Visible = True
-        SerialTextBox.Enabled = False
+    '6 деактивация ввода серийника
+    Private Sub SNTBEnabled(Res As Boolean)
+        SerialTextBox.Enabled = Res
         BT_Pause.Focus()
-        PrintLabel(Controllabel, "Подтвердите результат теста!", 12, 193, Color.OrangeRed)
-        CurrrentTimeLabel.Focus()
     End Sub
-
-
-    'Функция для автоматизации регистрации результата (Пробел - Pass/ F - вызов окна ввода ошибки
-    Private Sub CurrrentTimeLabel_KeyDown(sender As Object, e As KeyEventArgs) Handles CurrrentTimeLabel.KeyDown
-        If e.KeyCode = Keys.Space Then
-            BT_Pass_Click(sender, e)
-        ElseIf e.KeyCode = Keys.F Then
-            BT_Fail_Click(sender, e)
-        End If
-    End Sub
-    'Кнопка Pass
-    Private Sub BT_Pass_Click(sender As Object, e As EventArgs) Handles BT_Pass.Click
-        ShiftCounter(2)
-        UpdateStepRes(PCInfo(6), 2, SNID)
-        BT_CleareSN_Click(sender, e)
-    End Sub
-    'Кнопка Fail 
+    '6. Кнопка Fail 
     Private Sub BT_Fail_Click(sender As Object, e As EventArgs) Handles BT_Fail.Click
         GB_ErrorCode.Visible = True
         GB_ErrorCode.Location = New Point(180, 333)
@@ -205,56 +269,13 @@ Public Class Quarantine
         CB_ErrorCode.Focus()
     End Sub
 
-    ''функция обноления результата тестирования для Pass/Fail
-    Private Sub UpdateStepRes(StepID As Integer, StepRes As Integer, SNID As Integer)
-        Dim Message As String
-        Dim MesColor As Color
-        Dim ErrCode As New ArrayList()
-        Select Case StepRes
-            Case 2
-                Message = "Приемник " & SerialTextBox.Text & " прошл этап тестирования!" &
-                   vbCrLf & "Передайте приемник на следующий этап!"
-                MesColor = Color.Green
-                CurrentLogUpdate(Label_ShiftCounter.Text, SerialTextBox.Text, "Успех", "", "Приемник прошл этап тестирования!" &
-                   vbCrLf & "Передайте приемник на следующий этап!")
-            Case 3
-                ErrCode = GetErrorCode()
-                Message = "Плата " & SerialTextBox.Text & " не прошла этап тестирования!" &
-                   vbCrLf & "Передайте приемник в ремонт!"
-                MesColor = Color.Red
-                CurrentLogUpdate(Label_ShiftCounter.Text, SerialTextBox.Text, "Карантин", ErrCode(1), "Приемник не прошл этап тестирования!" &
-                  vbCrLf & "Передайте приемник в ремонт!")
-        End Select
-
-        RunCommand("insert into [FAS].[dbo].[Ct_OperLog] ([SNID],[LOTID],[StepID],[TestResultID],[StepDate],
-                    [StepByID],[LineID],[ErrorCodeID],[Descriptions])values
-                    (" & SNID & "," & LOTID & "," & StepID & "," & StepRes & ",CURRENT_TIMESTAMP,
-                    " & UserInfo(0) & "," & PCInfo(2) & "," &
-                If(StepRes = 3, ErrCode(0), "Null") & "," &
-                If(StepRes = 3, If(TB_Description.Text = "", "Null", "'" & TB_Description.Text & "'"), "Null") & ")")
-
-        PrintLabel(Controllabel, Message, 12, 193, MesColor)
-    End Sub
-
-    'Кнопка Сохранения кода ошибки
-    Private Sub BT_SeveErCode_Click(sender As Object, e As EventArgs) Handles BT_SeveErCode.Click
-        If CB_ErrorCode.Text = "" Then
-            MsgBox("Укажите код ошибки")
-        Else
-            ShiftCounter(3)
-            UpdateStepRes(PCInfo(6), 3, SNID)
-            CB_ErrorCode.Text = ""
-            BT_CleareSN_Click(sender, e)
-        End If
-    End Sub
-
-    'Кнопка закрытия формы записи ошибок
+    '7. Кнопка закрытия формы записи ошибок
     Private Sub BT_CloseErrMode_Click(sender As Object, e As EventArgs)
         GB_ErrorCode.Visible = False
         DG_UpLog.Visible = True
         CurrrentTimeLabel.Focus()
     End Sub
-
+    '8. кода ошибок
     Private Function GetErrorCode() As ArrayList
         Dim ErrorCode As New ArrayList()
         'определяем errorcodID
@@ -277,7 +298,7 @@ Public Class Quarantine
         End If
         BT_SeveErCode.Focus()
     End Sub
-    'Кнопка очистки поля ввода номера
+    '9. Кнопка очистки поля ввода номера
     Private Sub BT_CleareSN_Click(sender As Object, e As EventArgs) Handles BT_CleareSN.Click
         If GB_PCBInfoMode.Visible = False Then
             SerialTextBox.Clear()
@@ -294,13 +315,13 @@ Public Class Quarantine
             TB_GetPCPInfo.Focus()
         End If
     End Sub
-    'Функция запролнения LogGrid 
+    '10. Функция запролнения LogGrid 
     Private Sub CurrentLogUpdate(ShtCounter As Integer, SN As String, ScanRes As String, ErrCode As String, Descr As String)
         ' заполняем строку таблицы
         Me.DG_UpLog.Rows.Add(ShtCounter, SN, ScanRes, Date.Now, ErrCode, Descr)
         DG_UpLog.Sort(DG_UpLog.Columns(3), System.ComponentModel.ListSortDirection.Descending)
     End Sub
-    'Счетчик продукции
+    '11. Счетчик продукции
     Private Sub ShiftCounter(StepRes As Integer)
         ShiftCounterInfo(1) += 1
         ShiftCounterInfo(2) += 1
@@ -310,10 +331,10 @@ Public Class Quarantine
             ShiftCounterInfo(4) += 1
         End If
         Label_ShiftCounter.Text = ShiftCounterInfo(1)
-        LB_Procent.Visible = True
+        'LB_Procent.Visible = True
         ShiftCounterUpdateCT(PCInfo(4), PCInfo(0), ShiftCounterInfo(0), ShiftCounterInfo(1), ShiftCounterInfo(2),
                          ShiftCounterInfo(3), ShiftCounterInfo(4))
-        YieldCounter()
+        'YieldCounter()
     End Sub
 
 

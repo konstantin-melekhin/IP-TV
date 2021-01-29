@@ -32,11 +32,9 @@ Partial Class SettingsForm
         Me.Label7 = New System.Windows.Forms.Label()
         Me.CB_Line = New System.Windows.Forms.ComboBox()
         Me.GB_LineSettings = New System.Windows.Forms.GroupBox()
+        Me.BT_CloseLineSet = New System.Windows.Forms.Button()
+        Me.BT_SaveLine = New System.Windows.Forms.Button()
         Me.GB_SelectLine = New System.Windows.Forms.GroupBox()
-        Me.LOT_ID = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.ModelName = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.LOT = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.FullLOTCode = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.GB_NotVisibleElements = New System.Windows.Forms.GroupBox()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
@@ -57,9 +55,11 @@ Partial Class SettingsForm
         Me.Label_StationName = New System.Windows.Forms.Label()
         Me.L_Result = New System.Windows.Forms.Label()
         Me.BT_RefreshLOT = New System.Windows.Forms.Button()
-        Me.BT_CloseLineSet = New System.Windows.Forms.Button()
-        Me.BT_SaveLine = New System.Windows.Forms.Button()
         Me.BT_SelectLot = New System.Windows.Forms.Button()
+        Me.LOT_ID = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ModelName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.LOT = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.FullLOTCode = New System.Windows.Forms.DataGridViewTextBoxColumn()
         CType(Me.DG_AppList, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GB_LineSettings.SuspendLayout()
         Me.GB_SelectLine.SuspendLayout()
@@ -144,6 +144,28 @@ Partial Class SettingsForm
         Me.GB_LineSettings.TabIndex = 35
         Me.GB_LineSettings.TabStop = False
         '
+        'BT_CloseLineSet
+        '
+        Me.BT_CloseLineSet.FlatAppearance.BorderSize = 0
+        Me.BT_CloseLineSet.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BT_CloseLineSet.Image = Global.IP_TV.My.Resources.Resources.icons8_стрелка_влево_в_круге_2_64
+        Me.BT_CloseLineSet.Location = New System.Drawing.Point(12, 195)
+        Me.BT_CloseLineSet.Name = "BT_CloseLineSet"
+        Me.BT_CloseLineSet.Size = New System.Drawing.Size(75, 64)
+        Me.BT_CloseLineSet.TabIndex = 20
+        Me.BT_CloseLineSet.UseVisualStyleBackColor = True
+        '
+        'BT_SaveLine
+        '
+        Me.BT_SaveLine.FlatAppearance.BorderSize = 0
+        Me.BT_SaveLine.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BT_SaveLine.Image = Global.IP_TV.My.Resources.Resources._3floppy_mount
+        Me.BT_SaveLine.Location = New System.Drawing.Point(529, 187)
+        Me.BT_SaveLine.Name = "BT_SaveLine"
+        Me.BT_SaveLine.Size = New System.Drawing.Size(72, 72)
+        Me.BT_SaveLine.TabIndex = 17
+        Me.BT_SaveLine.UseVisualStyleBackColor = True
+        '
         'GB_SelectLine
         '
         Me.GB_SelectLine.Controls.Add(Me.GB_LineSettings)
@@ -158,35 +180,6 @@ Partial Class SettingsForm
         Me.GB_SelectLine.Text = "Выбор номера линии"
         Me.GB_SelectLine.Visible = False
         '
-        'LOT_ID
-        '
-        Me.LOT_ID.HeaderText = "LOT_ID"
-        Me.LOT_ID.Name = "LOT_ID"
-        Me.LOT_ID.ReadOnly = True
-        Me.LOT_ID.Visible = False
-        Me.LOT_ID.Width = 85
-        '
-        'ModelName
-        '
-        Me.ModelName.HeaderText = "Модель"
-        Me.ModelName.Name = "ModelName"
-        Me.ModelName.ReadOnly = True
-        Me.ModelName.Width = 89
-        '
-        'LOT
-        '
-        Me.LOT.HeaderText = "ЛОТ"
-        Me.LOT.Name = "LOT"
-        Me.LOT.ReadOnly = True
-        Me.LOT.Width = 64
-        '
-        'FullLOTCode
-        '
-        Me.FullLOTCode.HeaderText = "Спецификация"
-        Me.FullLOTCode.Name = "FullLOTCode"
-        Me.FullLOTCode.ReadOnly = True
-        Me.FullLOTCode.Width = 143
-        '
         'GB_NotVisibleElements
         '
         Me.GB_NotVisibleElements.Controls.Add(Me.Label10)
@@ -197,7 +190,7 @@ Partial Class SettingsForm
         Me.GB_NotVisibleElements.Controls.Add(Me.Label4)
         Me.GB_NotVisibleElements.Controls.Add(Me.Label6)
         Me.GB_NotVisibleElements.Controls.Add(Me.DG_LotList)
-        Me.GB_NotVisibleElements.Location = New System.Drawing.Point(1337, 35)
+        Me.GB_NotVisibleElements.Location = New System.Drawing.Point(1337, 30)
         Me.GB_NotVisibleElements.Margin = New System.Windows.Forms.Padding(4)
         Me.GB_NotVisibleElements.Name = "GB_NotVisibleElements"
         Me.GB_NotVisibleElements.Padding = New System.Windows.Forms.Padding(4)
@@ -309,7 +302,7 @@ Partial Class SettingsForm
         Me.DG_LOTListPresent.ReadOnly = True
         DataGridViewCellStyle3.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
         Me.DG_LOTListPresent.RowsDefaultCellStyle = DataGridViewCellStyle3
-        Me.DG_LOTListPresent.Size = New System.Drawing.Size(812, 218)
+        Me.DG_LOTListPresent.Size = New System.Drawing.Size(812, 433)
         Me.DG_LOTListPresent.TabIndex = 52
         '
         'GroupBox3
@@ -429,28 +422,6 @@ Partial Class SettingsForm
         Me.BT_RefreshLOT.TabIndex = 53
         Me.BT_RefreshLOT.UseVisualStyleBackColor = True
         '
-        'BT_CloseLineSet
-        '
-        Me.BT_CloseLineSet.FlatAppearance.BorderSize = 0
-        Me.BT_CloseLineSet.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BT_CloseLineSet.Image = Global.IP_TV.My.Resources.Resources.icons8_стрелка_влево_в_круге_2_64
-        Me.BT_CloseLineSet.Location = New System.Drawing.Point(12, 195)
-        Me.BT_CloseLineSet.Name = "BT_CloseLineSet"
-        Me.BT_CloseLineSet.Size = New System.Drawing.Size(75, 64)
-        Me.BT_CloseLineSet.TabIndex = 20
-        Me.BT_CloseLineSet.UseVisualStyleBackColor = True
-        '
-        'BT_SaveLine
-        '
-        Me.BT_SaveLine.FlatAppearance.BorderSize = 0
-        Me.BT_SaveLine.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BT_SaveLine.Image = Global.IP_TV.My.Resources.Resources._3floppy_mount
-        Me.BT_SaveLine.Location = New System.Drawing.Point(529, 187)
-        Me.BT_SaveLine.Name = "BT_SaveLine"
-        Me.BT_SaveLine.Size = New System.Drawing.Size(72, 72)
-        Me.BT_SaveLine.TabIndex = 17
-        Me.BT_SaveLine.UseVisualStyleBackColor = True
-        '
         'BT_SelectLot
         '
         Me.BT_SelectLot.FlatAppearance.BorderSize = 0
@@ -461,6 +432,35 @@ Partial Class SettingsForm
         Me.BT_SelectLot.Size = New System.Drawing.Size(94, 79)
         Me.BT_SelectLot.TabIndex = 54
         Me.BT_SelectLot.UseVisualStyleBackColor = True
+        '
+        'LOT_ID
+        '
+        Me.LOT_ID.HeaderText = "LOT_ID"
+        Me.LOT_ID.Name = "LOT_ID"
+        Me.LOT_ID.ReadOnly = True
+        Me.LOT_ID.Visible = False
+        Me.LOT_ID.Width = 85
+        '
+        'ModelName
+        '
+        Me.ModelName.HeaderText = "Модель"
+        Me.ModelName.Name = "ModelName"
+        Me.ModelName.ReadOnly = True
+        Me.ModelName.Width = 89
+        '
+        'LOT
+        '
+        Me.LOT.HeaderText = "ЛОТ"
+        Me.LOT.Name = "LOT"
+        Me.LOT.ReadOnly = True
+        Me.LOT.Width = 64
+        '
+        'FullLOTCode
+        '
+        Me.FullLOTCode.HeaderText = "Спецификация"
+        Me.FullLOTCode.Name = "FullLOTCode"
+        Me.FullLOTCode.ReadOnly = True
+        Me.FullLOTCode.Width = 143
         '
         'SettingsForm
         '
@@ -506,10 +506,6 @@ Partial Class SettingsForm
     Friend WithEvents CB_Line As ComboBox
     Friend WithEvents GB_LineSettings As GroupBox
     Friend WithEvents GB_SelectLine As GroupBox
-    Friend WithEvents LOT_ID As DataGridViewTextBoxColumn
-    Friend WithEvents ModelName As DataGridViewTextBoxColumn
-    Friend WithEvents LOT As DataGridViewTextBoxColumn
-    Friend WithEvents FullLOTCode As DataGridViewTextBoxColumn
     Friend WithEvents BT_SelectLot As Button
     Friend WithEvents GB_NotVisibleElements As GroupBox
     Friend WithEvents Label10 As Label
@@ -530,4 +526,8 @@ Partial Class SettingsForm
     Friend WithEvents LB_CurrentStep As Label
     Friend WithEvents Label_StationName As Label
     Friend WithEvents L_Result As Label
+    Friend WithEvents FullLOTCode As DataGridViewTextBoxColumn
+    Friend WithEvents LOT As DataGridViewTextBoxColumn
+    Friend WithEvents ModelName As DataGridViewTextBoxColumn
+    Friend WithEvents LOT_ID As DataGridViewTextBoxColumn
 End Class
