@@ -137,7 +137,7 @@ Public Class Quarantine
     Private Sub SerialTextBox_KeyDown(sender As Object, e As KeyEventArgs) Handles SerialTextBox.KeyDown
         If e.KeyCode = Keys.Enter Then
             'определение формата номера
-            If GetFTSN(False) = True Then
+            If GetFTSN() = True Then
                 NumID = SearchNumberID(SerialTextBox.Text)
                 If NumID(0) = True Then
                     BT_Fail_Click(sender, e)
@@ -148,7 +148,7 @@ Public Class Quarantine
     '
 
     '1. Определение формата номера
-    Private Function GetFTSN(SingleSN As Boolean) As Boolean
+    Private Function GetFTSN() As Boolean
         Dim col As Color, Mess As String, Res As Boolean
         SNFormat = New ArrayList()
         SNFormat = GetSNFormat(LOTInfo(3), LOTInfo(8), SerialTextBox.Text, LOTInfo(18), LOTInfo(2), LOTInfo(7))
@@ -214,17 +214,22 @@ Public Class Quarantine
                 CurrentLogUpdate(Label_ShiftCounter.Text, SerialTextBox.Text, "Карантин", ErrCode(1), "Приемник не прошёл этап тестирования!" &
                   vbCrLf & "Передайте приемник в ремонт!")
         End Select
-        RunCommand($"USE FAS Update [FAS].[dbo].[Ct_StepResult] 
-                    set StepID = 28, TestResult = 3, ScanDate = CURRENT_TIMESTAMP, SNID = Null  
+
+        If SelectListString($"USE FAS Select * from  [FAS].[dbo].[Ct_StepResult] where PCBID =  { NumID }").Count > 0 Then
+            RunCommand($"USE FAS Update [FAS].[dbo].[Ct_StepResult] 
+                    set StepID = {StepID}, TestResult = 3, ScanDate = CURRENT_TIMESTAMP, SNID = Null  
                     where PCBID =  { NumID }")
+        Else
+            RunCommand($"USE FAS insert into [FAS].[dbo].[Ct_StepResult]  ([PCBID],[StepID],[TestResult],[ScanDate]) values
+                   ({ NumID },{StepID},3,CURRENT_TIMESTAMP)")
+        End If
+
         RunCommand($"insert into [FAS].[dbo].[Ct_OperLog] ([PCBID],[LOTID],[StepID],[TestResultID],[StepDate],
                     [StepByID],[LineID],[ErrorCodeID],[Descriptions])values
                     ( {NumID} , {LOTID} , {StepID} , {StepRes} ,CURRENT_TIMESTAMP,
                     {UserInfo(0)} ,{PCInfo(2)} ,
                         {If(StepRes = 3, ErrCode(0), "Null")} ,
                         {If(StepRes = 3, If(TB_Description.Text = "", "Null", "'" & TB_Description.Text & "'"), "Null")} )")
-
-
         PrintLabel(Controllabel, Message, 12, 193, MesColor)
         Return True
     End Function
@@ -244,11 +249,11 @@ Public Class Quarantine
     End Sub
 
     '5.запись в опер лог
-    Private Sub OperLogUpd(_SNID As Integer, StepID As Integer, StepRes As Integer, Descr As String)
-        RunCommand($"insert into [FAS].[dbo].[Ct_OperLog] ([LOTID],[StepID],[TestResultID],[StepDate],
-                    [StepByID],[LineID],[SNID],[Descriptions])values
-                    ({LOTID},{StepID},{StepRes},CURRENT_TIMESTAMP,{ UserInfo(0) },{ PCInfo(2) },{ _SNID },'{ Descr }')")
-    End Sub
+    'Private Sub OperLogUpd(_SNID As Integer, StepID As Integer, StepRes As Integer, Descr As String)
+    '    RunCommand($"insert into [FAS].[dbo].[Ct_OperLog] ([LOTID],[StepID],[TestResultID],[StepDate],
+    '                [StepByID],[LineID],[SNID],[Descriptions])values
+    '                ({LOTID},{StepID},{StepRes},CURRENT_TIMESTAMP,{ UserInfo(0) },{ PCInfo(2) },{ _SNID },'{ Descr }')")
+    'End Sub
     '6 деактивация ввода серийника
     Private Sub SNTBEnabled(Res As Boolean)
         SerialTextBox.Enabled = Res

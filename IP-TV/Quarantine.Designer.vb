@@ -199,7 +199,7 @@ Partial Class Quarantine
         Me.GB_ErrorCode.Controls.Add(Me.Label8)
         Me.GB_ErrorCode.Controls.Add(Me.Label4)
         Me.GB_ErrorCode.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.GB_ErrorCode.Location = New System.Drawing.Point(1534, 441)
+        Me.GB_ErrorCode.Location = New System.Drawing.Point(1354, 426)
         Me.GB_ErrorCode.Name = "GB_ErrorCode"
         Me.GB_ErrorCode.Size = New System.Drawing.Size(595, 335)
         Me.GB_ErrorCode.TabIndex = 47
@@ -1077,7 +1077,7 @@ Partial Class Quarantine
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(2206, 926)
+        Me.ClientSize = New System.Drawing.Size(1924, 1041)
         Me.Controls.Add(Me.GB_ErrorCode)
         Me.Controls.Add(Me.GB_UserData)
         Me.Controls.Add(Me.GB_PCBInfoMode)

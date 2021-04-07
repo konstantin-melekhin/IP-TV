@@ -23,14 +23,14 @@ Partial Class IP_TV_Print
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle17 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle18 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle19 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle20 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle21 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle22 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle23 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle24 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Label19 = New System.Windows.Forms.Label()
         Me.TB_GetPCPInfo = New System.Windows.Forms.TextBox()
         Me.DataGridViewTextBoxColumn4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
@@ -69,22 +69,13 @@ Partial Class IP_TV_Print
         Me.Label12 = New System.Windows.Forms.Label()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.Label_ShiftCounter = New System.Windows.Forms.Label()
-        Me.Label15 = New System.Windows.Forms.Label()
-        Me.Label14 = New System.Windows.Forms.Label()
-        Me.Y_pos = New System.Windows.Forms.NumericUpDown()
-        Me.X_pos = New System.Windows.Forms.NumericUpDown()
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
         Me.CurrrentTimeLabel = New System.Windows.Forms.Label()
-        Me.GB_HomePos = New System.Windows.Forms.GroupBox()
-        Me.Label20 = New System.Windows.Forms.Label()
-        Me.Label17 = New System.Windows.Forms.Label()
-        Me.Y2_pos = New System.Windows.Forms.NumericUpDown()
-        Me.X2_pos = New System.Windows.Forms.NumericUpDown()
         Me.GB_UserData = New System.Windows.Forms.GroupBox()
         Me.BT_LOGInClose = New System.Windows.Forms.Button()
         Me.Label13 = New System.Windows.Forms.Label()
         Me.TB_RFIDIn = New System.Windows.Forms.TextBox()
-        Me.CB_LabelHomePos = New System.Windows.Forms.CheckBox()
+        Me.CB_PrinterSettings = New System.Windows.Forms.CheckBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.LB_LOTCounter = New System.Windows.Forms.Label()
         Me.GB_WorkAria = New System.Windows.Forms.GroupBox()
@@ -92,9 +83,11 @@ Partial Class IP_TV_Print
         Me.BT_OpenSettings = New System.Windows.Forms.Button()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
         Me.LB_CurrentStep = New System.Windows.Forms.Label()
+        Me.LB_SW_Wers = New System.Windows.Forms.Label()
         Me.LabelAppName = New System.Windows.Forms.Label()
         Me.L_UserName = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
+        Me.Label15 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Label_StationName = New System.Windows.Forms.Label()
@@ -107,7 +100,16 @@ Partial Class IP_TV_Print
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Controllabel = New System.Windows.Forms.Label()
         Me.GB_ScanMode = New System.Windows.Forms.GroupBox()
-        Me.CB_Reprint = New System.Windows.Forms.CheckBox()
+        Me.GB_Printers = New System.Windows.Forms.GroupBox()
+        Me.Label14 = New System.Windows.Forms.Label()
+        Me.CB_LabScenario = New System.Windows.Forms.ComboBox()
+        Me.Label21 = New System.Windows.Forms.Label()
+        Me.Num_X = New System.Windows.Forms.NumericUpDown()
+        Me.BT_Save_Coordinats = New System.Windows.Forms.Button()
+        Me.Num_Y = New System.Windows.Forms.NumericUpDown()
+        Me.Label22 = New System.Windows.Forms.Label()
+        Me.Label23 = New System.Windows.Forms.Label()
+        Me.CB_DefaultPrinter = New System.Windows.Forms.ComboBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.BT_CleareSN = New System.Windows.Forms.Button()
         Me.BT_Pause = New System.Windows.Forms.Button()
@@ -126,17 +128,15 @@ Partial Class IP_TV_Print
         CType(Me.DG_StepList, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GB_ErrorCode.SuspendLayout()
         CType(Me.DG_ErrorCodes, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Y_pos, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.X_pos, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox5.SuspendLayout()
-        Me.GB_HomePos.SuspendLayout()
-        CType(Me.Y2_pos, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.X2_pos, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GB_UserData.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.GB_WorkAria.SuspendLayout()
         Me.GroupBox4.SuspendLayout()
         Me.GB_ScanMode.SuspendLayout()
+        Me.GB_Printers.SuspendLayout()
+        CType(Me.Num_X, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Num_Y, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DG_UpLog, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.FASErrorCodeBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -231,41 +231,41 @@ Partial Class IP_TV_Print
         '
         Me.DG_PCB_Steps.AllowUserToAddRows = False
         Me.DG_PCB_Steps.AllowUserToDeleteRows = False
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.DG_PCB_Steps.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle17.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.DG_PCB_Steps.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle17
         Me.DG_PCB_Steps.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
         Me.DG_PCB_Steps.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DG_PCB_Steps.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle18.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        DataGridViewCellStyle18.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle18.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DG_PCB_Steps.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle18
         Me.DG_PCB_Steps.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DG_PCB_Steps.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.DataGridViewTextBoxColumn1, Me.DataGridViewTextBoxColumn2, Me.Column1, Me.DataGridViewTextBoxColumn3, Me.Column4, Me.DataGridViewTextBoxColumn6, Me.Column2, Me.Column3, Me.DataGridViewTextBoxColumn4})
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.DG_PCB_Steps.DefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle19.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle19.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        DataGridViewCellStyle19.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle19.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle19.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.DG_PCB_Steps.DefaultCellStyle = DataGridViewCellStyle19
         Me.DG_PCB_Steps.Location = New System.Drawing.Point(14, 109)
         Me.DG_PCB_Steps.Name = "DG_PCB_Steps"
         Me.DG_PCB_Steps.ReadOnly = True
-        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        DataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DG_PCB_Steps.RowHeadersDefaultCellStyle = DataGridViewCellStyle4
-        DataGridViewCellStyle5.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.DG_PCB_Steps.RowsDefaultCellStyle = DataGridViewCellStyle5
+        DataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle20.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle20.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        DataGridViewCellStyle20.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle20.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle20.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DG_PCB_Steps.RowHeadersDefaultCellStyle = DataGridViewCellStyle20
+        DataGridViewCellStyle21.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.DG_PCB_Steps.RowsDefaultCellStyle = DataGridViewCellStyle21
         Me.DG_PCB_Steps.Size = New System.Drawing.Size(723, 276)
         Me.DG_PCB_Steps.TabIndex = 26
         '
@@ -494,11 +494,12 @@ Partial Class IP_TV_Print
         '
         Me.CB_SelectLabel.FormattingEnabled = True
         Me.CB_SelectLabel.Items.AddRange(New Object() {"Этикетки 45х8 и 39х19", "Этикетка 44х21_Rus"})
-        Me.CB_SelectLabel.Location = New System.Drawing.Point(267, 86)
+        Me.CB_SelectLabel.Location = New System.Drawing.Point(752, 6)
         Me.CB_SelectLabel.Name = "CB_SelectLabel"
         Me.CB_SelectLabel.Size = New System.Drawing.Size(260, 21)
         Me.CB_SelectLabel.TabIndex = 30
         Me.CB_SelectLabel.Text = "Этикетки 45х8 и 39х19"
+        Me.CB_SelectLabel.Visible = False
         '
         'Label12
         '
@@ -530,40 +531,6 @@ Partial Class IP_TV_Print
         Me.Label_ShiftCounter.TabIndex = 0
         Me.Label_ShiftCounter.Text = "99"
         '
-        'Label15
-        '
-        Me.Label15.AutoSize = True
-        Me.Label15.Location = New System.Drawing.Point(169, 11)
-        Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(14, 13)
-        Me.Label15.TabIndex = 1
-        Me.Label15.Text = "Y"
-        '
-        'Label14
-        '
-        Me.Label14.AutoSize = True
-        Me.Label14.Location = New System.Drawing.Point(79, 11)
-        Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(14, 13)
-        Me.Label14.TabIndex = 1
-        Me.Label14.Text = "X"
-        '
-        'Y_pos
-        '
-        Me.Y_pos.Location = New System.Drawing.Point(142, 30)
-        Me.Y_pos.Minimum = New Decimal(New Integer() {100, 0, 0, -2147483648})
-        Me.Y_pos.Name = "Y_pos"
-        Me.Y_pos.Size = New System.Drawing.Size(68, 20)
-        Me.Y_pos.TabIndex = 0
-        '
-        'X_pos
-        '
-        Me.X_pos.Location = New System.Drawing.Point(52, 30)
-        Me.X_pos.Minimum = New Decimal(New Integer() {100, 0, 0, -2147483648})
-        Me.X_pos.Name = "X_pos"
-        Me.X_pos.Size = New System.Drawing.Size(68, 20)
-        Me.X_pos.TabIndex = 0
-        '
         'GroupBox5
         '
         Me.GroupBox5.BackColor = System.Drawing.SystemColors.Control
@@ -587,56 +554,6 @@ Partial Class IP_TV_Print
         Me.CurrrentTimeLabel.Size = New System.Drawing.Size(156, 29)
         Me.CurrrentTimeLabel.TabIndex = 6
         Me.CurrrentTimeLabel.Text = "Current TIME"
-        '
-        'GB_HomePos
-        '
-        Me.GB_HomePos.Controls.Add(Me.Label15)
-        Me.GB_HomePos.Controls.Add(Me.Label20)
-        Me.GB_HomePos.Controls.Add(Me.Label17)
-        Me.GB_HomePos.Controls.Add(Me.Label14)
-        Me.GB_HomePos.Controls.Add(Me.Y2_pos)
-        Me.GB_HomePos.Controls.Add(Me.X2_pos)
-        Me.GB_HomePos.Controls.Add(Me.Y_pos)
-        Me.GB_HomePos.Controls.Add(Me.X_pos)
-        Me.GB_HomePos.Location = New System.Drawing.Point(783, 216)
-        Me.GB_HomePos.Name = "GB_HomePos"
-        Me.GB_HomePos.Size = New System.Drawing.Size(234, 97)
-        Me.GB_HomePos.TabIndex = 34
-        Me.GB_HomePos.TabStop = False
-        '
-        'Label20
-        '
-        Me.Label20.AutoSize = True
-        Me.Label20.Location = New System.Drawing.Point(6, 66)
-        Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(40, 13)
-        Me.Label20.TabIndex = 1
-        Me.Label20.Text = "COM 6"
-        '
-        'Label17
-        '
-        Me.Label17.AutoSize = True
-        Me.Label17.Location = New System.Drawing.Point(6, 33)
-        Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(40, 13)
-        Me.Label17.TabIndex = 1
-        Me.Label17.Text = "COM 3"
-        '
-        'Y2_pos
-        '
-        Me.Y2_pos.Location = New System.Drawing.Point(142, 63)
-        Me.Y2_pos.Minimum = New Decimal(New Integer() {100, 0, 0, -2147483648})
-        Me.Y2_pos.Name = "Y2_pos"
-        Me.Y2_pos.Size = New System.Drawing.Size(68, 20)
-        Me.Y2_pos.TabIndex = 0
-        '
-        'X2_pos
-        '
-        Me.X2_pos.Location = New System.Drawing.Point(52, 63)
-        Me.X2_pos.Minimum = New Decimal(New Integer() {100, 0, 0, -2147483648})
-        Me.X2_pos.Name = "X2_pos"
-        Me.X2_pos.Size = New System.Drawing.Size(68, 20)
-        Me.X2_pos.TabIndex = 0
         '
         'GB_UserData
         '
@@ -683,17 +600,17 @@ Partial Class IP_TV_Print
         Me.TB_RFIDIn.Size = New System.Drawing.Size(345, 31)
         Me.TB_RFIDIn.TabIndex = 0
         '
-        'CB_LabelHomePos
+        'CB_PrinterSettings
         '
-        Me.CB_LabelHomePos.AutoSize = True
-        Me.CB_LabelHomePos.Checked = True
-        Me.CB_LabelHomePos.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CB_LabelHomePos.Location = New System.Drawing.Point(783, 193)
-        Me.CB_LabelHomePos.Name = "CB_LabelHomePos"
-        Me.CB_LabelHomePos.Size = New System.Drawing.Size(134, 17)
-        Me.CB_LabelHomePos.TabIndex = 33
-        Me.CB_LabelHomePos.Text = "Позиция на этикетке"
-        Me.CB_LabelHomePos.UseVisualStyleBackColor = True
+        Me.CB_PrinterSettings.AutoSize = True
+        Me.CB_PrinterSettings.Checked = True
+        Me.CB_PrinterSettings.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CB_PrinterSettings.Location = New System.Drawing.Point(783, 193)
+        Me.CB_PrinterSettings.Name = "CB_PrinterSettings"
+        Me.CB_PrinterSettings.Size = New System.Drawing.Size(137, 17)
+        Me.CB_PrinterSettings.TabIndex = 33
+        Me.CB_PrinterSettings.Text = "Настройка принтеров"
+        Me.CB_PrinterSettings.UseVisualStyleBackColor = True
         '
         'GroupBox1
         '
@@ -722,8 +639,7 @@ Partial Class IP_TV_Print
         '
         'GB_WorkAria
         '
-        Me.GB_WorkAria.Controls.Add(Me.GB_HomePos)
-        Me.GB_WorkAria.Controls.Add(Me.CB_LabelHomePos)
+        Me.GB_WorkAria.Controls.Add(Me.CB_PrinterSettings)
         Me.GB_WorkAria.Controls.Add(Me.GroupBox1)
         Me.GB_WorkAria.Controls.Add(Me.BT_PCBInfo)
         Me.GB_WorkAria.Controls.Add(Me.BT_OpenSettings)
@@ -763,9 +679,11 @@ Partial Class IP_TV_Print
         'GroupBox4
         '
         Me.GroupBox4.Controls.Add(Me.LB_CurrentStep)
+        Me.GroupBox4.Controls.Add(Me.LB_SW_Wers)
         Me.GroupBox4.Controls.Add(Me.LabelAppName)
         Me.GroupBox4.Controls.Add(Me.L_UserName)
         Me.GroupBox4.Controls.Add(Me.Label3)
+        Me.GroupBox4.Controls.Add(Me.Label15)
         Me.GroupBox4.Controls.Add(Me.Label5)
         Me.GroupBox4.Controls.Add(Me.Label6)
         Me.GroupBox4.Controls.Add(Me.Label_StationName)
@@ -779,7 +697,7 @@ Partial Class IP_TV_Print
         Me.GroupBox4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
         Me.GroupBox4.Location = New System.Drawing.Point(17, 12)
         Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(472, 159)
+        Me.GroupBox4.Size = New System.Drawing.Size(472, 178)
         Me.GroupBox4.TabIndex = 10
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Информация о ЛОТе и станции"
@@ -788,17 +706,27 @@ Partial Class IP_TV_Print
         '
         Me.LB_CurrentStep.AutoSize = True
         Me.LB_CurrentStep.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.LB_CurrentStep.Location = New System.Drawing.Point(187, 45)
+        Me.LB_CurrentStep.Location = New System.Drawing.Point(187, 64)
         Me.LB_CurrentStep.Name = "LB_CurrentStep"
         Me.LB_CurrentStep.Size = New System.Drawing.Size(55, 16)
         Me.LB_CurrentStep.TabIndex = 20
         Me.LB_CurrentStep.Text = "fasend"
         '
+        'LB_SW_Wers
+        '
+        Me.LB_SW_Wers.AutoSize = True
+        Me.LB_SW_Wers.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.LB_SW_Wers.Location = New System.Drawing.Point(187, 29)
+        Me.LB_SW_Wers.Name = "LB_SW_Wers"
+        Me.LB_SW_Wers.Size = New System.Drawing.Size(76, 16)
+        Me.LB_SW_Wers.TabIndex = 20
+        Me.LB_SW_Wers.Text = "SW_Wers"
+        '
         'LabelAppName
         '
         Me.LabelAppName.AutoSize = True
         Me.LabelAppName.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.LabelAppName.Location = New System.Drawing.Point(187, 27)
+        Me.LabelAppName.Location = New System.Drawing.Point(187, 46)
         Me.LabelAppName.Name = "LabelAppName"
         Me.LabelAppName.Size = New System.Drawing.Size(55, 16)
         Me.LabelAppName.TabIndex = 20
@@ -808,7 +736,7 @@ Partial Class IP_TV_Print
         '
         Me.L_UserName.AutoSize = True
         Me.L_UserName.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.L_UserName.Location = New System.Drawing.Point(187, 63)
+        Me.L_UserName.Location = New System.Drawing.Point(187, 82)
         Me.L_UserName.Name = "L_UserName"
         Me.L_UserName.Size = New System.Drawing.Size(150, 16)
         Me.L_UserName.TabIndex = 19
@@ -818,17 +746,27 @@ Partial Class IP_TV_Print
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.Label3.Location = New System.Drawing.Point(27, 45)
+        Me.Label3.Location = New System.Drawing.Point(27, 64)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(162, 16)
         Me.Label3.TabIndex = 16
         Me.Label3.Text = "Название операции:"
         '
+        'Label15
+        '
+        Me.Label15.AutoSize = True
+        Me.Label15.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.Label15.Location = New System.Drawing.Point(30, 29)
+        Me.Label15.Name = "Label15"
+        Me.Label15.Size = New System.Drawing.Size(159, 16)
+        Me.Label15.TabIndex = 16
+        Me.Label15.Text = "Версия приложения:"
+        '
         'Label5
         '
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.Label5.Location = New System.Drawing.Point(39, 63)
+        Me.Label5.Location = New System.Drawing.Point(39, 82)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(150, 16)
         Me.Label5.TabIndex = 19
@@ -838,7 +776,7 @@ Partial Class IP_TV_Print
         '
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.Label6.Location = New System.Drawing.Point(9, 27)
+        Me.Label6.Location = New System.Drawing.Point(9, 46)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(180, 16)
         Me.Label6.TabIndex = 16
@@ -848,7 +786,7 @@ Partial Class IP_TV_Print
         '
         Me.Label_StationName.AutoSize = True
         Me.Label_StationName.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.Label_StationName.Location = New System.Drawing.Point(187, 81)
+        Me.Label_StationName.Location = New System.Drawing.Point(187, 100)
         Me.Label_StationName.Name = "Label_StationName"
         Me.Label_StationName.Size = New System.Drawing.Size(28, 16)
         Me.Label_StationName.TabIndex = 16
@@ -858,7 +796,7 @@ Partial Class IP_TV_Print
         '
         Me.Label7.AutoSize = True
         Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.Label7.Location = New System.Drawing.Point(79, 81)
+        Me.Label7.Location = New System.Drawing.Point(79, 100)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(110, 16)
         Me.Label7.TabIndex = 16
@@ -868,7 +806,7 @@ Partial Class IP_TV_Print
         '
         Me.L_Model.AutoSize = True
         Me.L_Model.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.L_Model.Location = New System.Drawing.Point(187, 135)
+        Me.L_Model.Location = New System.Drawing.Point(187, 154)
         Me.L_Model.Name = "L_Model"
         Me.L_Model.Size = New System.Drawing.Size(51, 16)
         Me.L_Model.TabIndex = 16
@@ -878,7 +816,7 @@ Partial Class IP_TV_Print
         '
         Me.Label11.AutoSize = True
         Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.Label11.Location = New System.Drawing.Point(121, 135)
+        Me.Label11.Location = New System.Drawing.Point(121, 154)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(68, 16)
         Me.Label11.TabIndex = 16
@@ -888,7 +826,7 @@ Partial Class IP_TV_Print
         '
         Me.L_LOT.AutoSize = True
         Me.L_LOT.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.L_LOT.Location = New System.Drawing.Point(187, 117)
+        Me.L_LOT.Location = New System.Drawing.Point(187, 136)
         Me.L_LOT.Name = "L_LOT"
         Me.L_LOT.Size = New System.Drawing.Size(37, 16)
         Me.L_LOT.TabIndex = 16
@@ -898,7 +836,7 @@ Partial Class IP_TV_Print
         '
         Me.Label9.AutoSize = True
         Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.Label9.Location = New System.Drawing.Point(59, 117)
+        Me.Label9.Location = New System.Drawing.Point(59, 136)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(130, 16)
         Me.Label9.TabIndex = 16
@@ -908,7 +846,7 @@ Partial Class IP_TV_Print
         '
         Me.Lebel_StationLine.AutoSize = True
         Me.Lebel_StationLine.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.Lebel_StationLine.Location = New System.Drawing.Point(187, 99)
+        Me.Lebel_StationLine.Location = New System.Drawing.Point(187, 118)
         Me.Lebel_StationLine.Name = "Lebel_StationLine"
         Me.Lebel_StationLine.Size = New System.Drawing.Size(37, 16)
         Me.Lebel_StationLine.TabIndex = 16
@@ -918,7 +856,7 @@ Partial Class IP_TV_Print
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.Label1.Location = New System.Drawing.Point(132, 99)
+        Me.Label1.Location = New System.Drawing.Point(132, 118)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(57, 16)
         Me.Label1.TabIndex = 16
@@ -928,7 +866,7 @@ Partial Class IP_TV_Print
         '
         Me.Controllabel.AutoSize = True
         Me.Controllabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.Controllabel.Location = New System.Drawing.Point(12, 193)
+        Me.Controllabel.Location = New System.Drawing.Point(12, 234)
         Me.Controllabel.Name = "Controllabel"
         Me.Controllabel.Size = New System.Drawing.Size(217, 29)
         Me.Controllabel.TabIndex = 21
@@ -937,7 +875,7 @@ Partial Class IP_TV_Print
         'GB_ScanMode
         '
         Me.GB_ScanMode.Controls.Add(Me.CB_SelectLabel)
-        Me.GB_ScanMode.Controls.Add(Me.CB_Reprint)
+        Me.GB_ScanMode.Controls.Add(Me.GB_Printers)
         Me.GB_ScanMode.Controls.Add(Me.Label2)
         Me.GB_ScanMode.Controls.Add(Me.BT_CleareSN)
         Me.GB_ScanMode.Controls.Add(Me.BT_Pause)
@@ -949,17 +887,105 @@ Partial Class IP_TV_Print
         Me.GB_ScanMode.TabIndex = 30
         Me.GB_ScanMode.TabStop = False
         '
-        'CB_Reprint
+        'GB_Printers
         '
-        Me.CB_Reprint.AutoSize = True
-        Me.CB_Reprint.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.CB_Reprint.Location = New System.Drawing.Point(21, 86)
-        Me.CB_Reprint.Name = "CB_Reprint"
-        Me.CB_Reprint.Size = New System.Drawing.Size(199, 20)
-        Me.CB_Reprint.TabIndex = 27
-        Me.CB_Reprint.Text = "Повторно распечатать"
-        Me.CB_Reprint.UseVisualStyleBackColor = True
-        Me.CB_Reprint.Visible = False
+        Me.GB_Printers.BackColor = System.Drawing.SystemColors.ActiveCaption
+        Me.GB_Printers.Controls.Add(Me.Label14)
+        Me.GB_Printers.Controls.Add(Me.CB_LabScenario)
+        Me.GB_Printers.Controls.Add(Me.Label21)
+        Me.GB_Printers.Controls.Add(Me.Num_X)
+        Me.GB_Printers.Controls.Add(Me.BT_Save_Coordinats)
+        Me.GB_Printers.Controls.Add(Me.Num_Y)
+        Me.GB_Printers.Controls.Add(Me.Label22)
+        Me.GB_Printers.Controls.Add(Me.Label23)
+        Me.GB_Printers.Controls.Add(Me.CB_DefaultPrinter)
+        Me.GB_Printers.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.GB_Printers.Location = New System.Drawing.Point(328, 114)
+        Me.GB_Printers.Name = "GB_Printers"
+        Me.GB_Printers.Size = New System.Drawing.Size(343, 237)
+        Me.GB_Printers.TabIndex = 68
+        Me.GB_Printers.TabStop = False
+        Me.GB_Printers.Text = "Настройка принтеров"
+        '
+        'Label14
+        '
+        Me.Label14.AutoSize = True
+        Me.Label14.Location = New System.Drawing.Point(6, 22)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(277, 20)
+        Me.Label14.TabIndex = 67
+        Me.Label14.Text = "Выберите этикетку для печати"
+        '
+        'CB_LabScenario
+        '
+        Me.CB_LabScenario.FormattingEnabled = True
+        Me.CB_LabScenario.Items.AddRange(New Object() {"1) Этикетка 44х21_Rus (FAS Start)", "2) Этикетки 39х19", "3) Этикетки 45х8"})
+        Me.CB_LabScenario.Location = New System.Drawing.Point(10, 45)
+        Me.CB_LabScenario.Name = "CB_LabScenario"
+        Me.CB_LabScenario.Size = New System.Drawing.Size(293, 28)
+        Me.CB_LabScenario.TabIndex = 66
+        '
+        'Label21
+        '
+        Me.Label21.AutoSize = True
+        Me.Label21.Location = New System.Drawing.Point(6, 156)
+        Me.Label21.Name = "Label21"
+        Me.Label21.Size = New System.Drawing.Size(106, 20)
+        Me.Label21.TabIndex = 64
+        Me.Label21.Text = "Корекция X"
+        '
+        'Num_X
+        '
+        Me.Num_X.Location = New System.Drawing.Point(118, 153)
+        Me.Num_X.Minimum = New Decimal(New Integer() {100, 0, 0, -2147483648})
+        Me.Num_X.Name = "Num_X"
+        Me.Num_X.Size = New System.Drawing.Size(69, 26)
+        Me.Num_X.TabIndex = 62
+        '
+        'BT_Save_Coordinats
+        '
+        Me.BT_Save_Coordinats.FlatAppearance.BorderSize = 0
+        Me.BT_Save_Coordinats.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BT_Save_Coordinats.Image = Global.IP_TV.My.Resources.Resources._04
+        Me.BT_Save_Coordinats.Location = New System.Drawing.Point(193, 148)
+        Me.BT_Save_Coordinats.Name = "BT_Save_Coordinats"
+        Me.BT_Save_Coordinats.Size = New System.Drawing.Size(58, 63)
+        Me.BT_Save_Coordinats.TabIndex = 65
+        Me.BT_Save_Coordinats.UseVisualStyleBackColor = True
+        '
+        'Num_Y
+        '
+        Me.Num_Y.Location = New System.Drawing.Point(118, 178)
+        Me.Num_Y.Minimum = New Decimal(New Integer() {100, 0, 0, -2147483648})
+        Me.Num_Y.Name = "Num_Y"
+        Me.Num_Y.Size = New System.Drawing.Size(69, 26)
+        Me.Num_Y.TabIndex = 63
+        '
+        'Label22
+        '
+        Me.Label22.AutoSize = True
+        Me.Label22.Location = New System.Drawing.Point(6, 181)
+        Me.Label22.Name = "Label22"
+        Me.Label22.Size = New System.Drawing.Size(106, 20)
+        Me.Label22.TabIndex = 64
+        Me.Label22.Text = "Корекция Y"
+        '
+        'Label23
+        '
+        Me.Label23.AutoSize = True
+        Me.Label23.Location = New System.Drawing.Point(6, 85)
+        Me.Label23.Name = "Label23"
+        Me.Label23.Size = New System.Drawing.Size(271, 20)
+        Me.Label23.TabIndex = 48
+        Me.Label23.Text = "Выберите принтер для печати"
+        '
+        'CB_DefaultPrinter
+        '
+        Me.CB_DefaultPrinter.FormattingEnabled = True
+        Me.CB_DefaultPrinter.Location = New System.Drawing.Point(10, 108)
+        Me.CB_DefaultPrinter.Name = "CB_DefaultPrinter"
+        Me.CB_DefaultPrinter.Size = New System.Drawing.Size(297, 28)
+        Me.CB_DefaultPrinter.TabIndex = 47
         '
         'Label2
         '
@@ -997,25 +1023,25 @@ Partial Class IP_TV_Print
         '
         Me.DG_UpLog.AllowUserToAddRows = False
         Me.DG_UpLog.AllowUserToDeleteRows = False
-        DataGridViewCellStyle6.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.DG_UpLog.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle6
+        DataGridViewCellStyle22.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.DG_UpLog.AlternatingRowsDefaultCellStyle = DataGridViewCellStyle22
         Me.DG_UpLog.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
         Me.DG_UpLog.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
-        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle7.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        DataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DG_UpLog.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle7
+        DataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle23.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle23.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        DataGridViewCellStyle23.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle23.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle23.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DG_UpLog.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle23
         Me.DG_UpLog.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DG_UpLog.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Num, Me.SNumber, Me.CASIDTab})
         Me.DG_UpLog.Location = New System.Drawing.Point(25, 109)
         Me.DG_UpLog.Name = "DG_UpLog"
         Me.DG_UpLog.ReadOnly = True
-        DataGridViewCellStyle8.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.DG_UpLog.RowsDefaultCellStyle = DataGridViewCellStyle8
+        DataGridViewCellStyle24.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.DG_UpLog.RowsDefaultCellStyle = DataGridViewCellStyle24
         Me.DG_UpLog.Size = New System.Drawing.Size(969, 283)
         Me.DG_UpLog.TabIndex = 25
         '
@@ -1060,7 +1086,7 @@ Partial Class IP_TV_Print
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1350, 729)
+        Me.ClientSize = New System.Drawing.Size(1924, 1061)
         Me.Controls.Add(Me.GB_PCBInfoMode)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GB_ErrorCode)
@@ -1081,14 +1107,8 @@ Partial Class IP_TV_Print
         Me.GB_ErrorCode.ResumeLayout(False)
         Me.GB_ErrorCode.PerformLayout()
         CType(Me.DG_ErrorCodes, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Y_pos, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.X_pos, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox5.ResumeLayout(False)
         Me.GroupBox5.PerformLayout()
-        Me.GB_HomePos.ResumeLayout(False)
-        Me.GB_HomePos.PerformLayout()
-        CType(Me.Y2_pos, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.X2_pos, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GB_UserData.ResumeLayout(False)
         Me.GB_UserData.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
@@ -1099,6 +1119,10 @@ Partial Class IP_TV_Print
         Me.GroupBox4.PerformLayout()
         Me.GB_ScanMode.ResumeLayout(False)
         Me.GB_ScanMode.PerformLayout()
+        Me.GB_Printers.ResumeLayout(False)
+        Me.GB_Printers.PerformLayout()
+        CType(Me.Num_X, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Num_Y, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DG_UpLog, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.FASErrorCodeBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -1145,20 +1169,15 @@ Partial Class IP_TV_Print
     Friend WithEvents Label12 As Label
     Friend WithEvents Label10 As Label
     Friend WithEvents Label_ShiftCounter As Label
-    Friend WithEvents Label15 As Label
-    Friend WithEvents Label14 As Label
-    Friend WithEvents Y_pos As NumericUpDown
-    Friend WithEvents X_pos As NumericUpDown
     Friend WithEvents GroupBox5 As GroupBox
     Friend WithEvents CurrrentTimeLabel As Label
-    Friend WithEvents GB_HomePos As GroupBox
     Friend WithEvents BT_PCBInfo As Button
     Friend WithEvents BT_OpenSettings As Button
     Friend WithEvents GB_UserData As GroupBox
     Friend WithEvents BT_LOGInClose As Button
     Friend WithEvents Label13 As Label
     Friend WithEvents TB_RFIDIn As TextBox
-    Friend WithEvents CB_LabelHomePos As CheckBox
+    Friend WithEvents CB_PrinterSettings As CheckBox
     Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents LB_LOTCounter As Label
     Friend WithEvents GB_WorkAria As GroupBox
@@ -1179,7 +1198,6 @@ Partial Class IP_TV_Print
     Friend WithEvents Label1 As Label
     Friend WithEvents Controllabel As Label
     Friend WithEvents GB_ScanMode As GroupBox
-    Friend WithEvents CB_Reprint As CheckBox
     Friend WithEvents Label2 As Label
     Friend WithEvents BT_Pause As Button
     Friend WithEvents DG_UpLog As DataGridView
@@ -1187,8 +1205,16 @@ Partial Class IP_TV_Print
     Friend WithEvents Num As DataGridViewTextBoxColumn
     Friend WithEvents SNumber As DataGridViewTextBoxColumn
     Friend WithEvents CASIDTab As DataGridViewTextBoxColumn
-    Friend WithEvents Label20 As Label
-    Friend WithEvents Label17 As Label
-    Friend WithEvents Y2_pos As NumericUpDown
-    Friend WithEvents X2_pos As NumericUpDown
+    Friend WithEvents GB_Printers As GroupBox
+    Friend WithEvents Label21 As Label
+    Friend WithEvents Num_X As NumericUpDown
+    Friend WithEvents BT_Save_Coordinats As Button
+    Friend WithEvents Num_Y As NumericUpDown
+    Friend WithEvents Label22 As Label
+    Friend WithEvents Label23 As Label
+    Friend WithEvents CB_DefaultPrinter As ComboBox
+    Friend WithEvents Label14 As Label
+    Friend WithEvents CB_LabScenario As ComboBox
+    Friend WithEvents LB_SW_Wers As Label
+    Friend WithEvents Label15 As Label
 End Class

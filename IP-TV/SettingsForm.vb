@@ -1,9 +1,16 @@
-﻿Imports Library3
+﻿Imports System.Deployment.Application
+Imports Library3
 
 Public Class SettingsForm
     ReadOnly IDApp As Integer = 32
     Dim PCInfo As New ArrayList() 'PCInfo = (App_ID, App_Caption, lineID, LineName, StationName,CT_ScanStep)
     Private Sub SettingsForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim myVersion As Version
+        If ApplicationDeployment.IsNetworkDeployed Then
+            myVersion = ApplicationDeployment.CurrentDeployment.CurrentVersion
+        End If
+        LB_SW_Wers.Text = String.Concat("v", myVersion)
+        'вывод версии
         PCInfo = GetPCInfo(IDApp)
         If PCInfo.Count = 0 Then
             DG_LOTListPresent.Visible = False
@@ -23,7 +30,7 @@ Public Class SettingsForm
                             "CT_ScanStep = " & PCInfo(7) & vbCrLf
         End If
         'загружаем список лотов в грид
-        GetLotList_ContractStation(DG_LotList)
+        GetLotList_ContractStation(DG_LotList, 26)
         GetLotList()
     End Sub 'Загрузка формы настроек
     Private Sub GetLotList()
@@ -53,7 +60,7 @@ Public Class SettingsForm
                     Exit For
                 End If
             Next
-            'определяем id выбранной операции
+            'определяем id выбранного шага
             For J = 0 To DG_Steps.Rows.Count - 1
                 If CB_Steps.Text = DG_Steps.Rows(J).Cells(1).Value Then
                     StepID = DG_Steps.Rows(J).Cells(0).Value
@@ -104,23 +111,14 @@ Public Class SettingsForm
         'загружаем список линий
         LoadGridFromDB(DG_LineList, ContractLineList)
         'Выводим названия линий FAS в combobox
-        If DG_LineList.Rows.Count <> 0 Then
-            For J = 0 To DG_LineList.Rows.Count - 1
-                CB_Line.Items.Add(DG_LineList.Rows(J).Cells(1).Value)
-            Next
-        Else
-            MsgBox("Список линий не сформирован, возможно проблемы с сетью!" & vbCr & "Попробуйте перезапустить приложение")
-        End If
+        LoadCombo(CB_Line, "Use FAS
+            SELECT[LineName]
+            FROM [FAS].[dbo].[FAS_Lines] 
+            where [TipeID] <> 1 and [TipeID]!= 4 and [TipeID]!= 6 and LineID != 6 and LineID != 14")
         'загружаем список операций 
         LoadGridFromDB(DG_Steps, "SELECT [ID],[StepName],[Description] FROM [FAS].[dbo].[Ct_StepScan]")
-        'Выводим названия линий FAS в combobox
-        If DG_Steps.Rows.Count <> 0 Then
-            For i = 0 To DG_Steps.Rows.Count - 1
-                CB_Steps.Items.Add(DG_Steps.Rows(i).Cells(1).Value)
-            Next
-        Else
-            MsgBox("Список линий не сформирован, возможно проблемы с сетью!" & vbCr & "Попробуйте перезапустить приложение")
-        End If
+        'Выводим названия шагов в combobox
+        LoadCombo(CB_Steps, "Use FAS SELECT [StepName] FROM [FAS].[dbo].[Ct_StepScan] where [Description] = 'IP-TV'")
     End Sub
     'Возврат к настройкам станции
     Private Sub BT_CloseLineSet_Click(sender As Object, e As EventArgs) Handles BT_CloseLineSet.Click
@@ -142,6 +140,10 @@ Public Class SettingsForm
         If DG_LOTListPresent.Rows.Count <> 0 Then
             LOTID = DG_LOTListPresent.Item(3, selRowNum).Value
             Select Case PCInfo(6)
+                Case 4
+                    Dim WF As New PassResult(LOTID, IDApp)
+                    WF.Controllabel.Text = ""
+                    WF.Show()
                 Case 6
                     Dim WF As New PackingStation(LOTID, IDApp)
                     WF.Controllabel.Text = ""
@@ -156,6 +158,10 @@ Public Class SettingsForm
                     WF.Show()
                 Case 30
                     Dim WF As New AssemblyNumbers(LOTID, IDApp)
+                    WF.Controllabel.Text = ""
+                    WF.Show()
+                Case 36
+                    Dim WF As New IP_TV_Print(LOTID, IDApp)
                     WF.Controllabel.Text = ""
                     WF.Show()
             End Select
