@@ -96,6 +96,8 @@ Partial Class AssemblyNumbers
         Me.Label_ShiftCounter = New System.Windows.Forms.Label()
         Me.Controllabel = New System.Windows.Forms.Label()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.LB_SW_Wers = New System.Windows.Forms.Label()
+        Me.Label10 = New System.Windows.Forms.Label()
         Me.Label11 = New System.Windows.Forms.Label()
         Me.L_LOT = New System.Windows.Forms.Label()
         Me.Label9 = New System.Windows.Forms.Label()
@@ -107,6 +109,7 @@ Partial Class AssemblyNumbers
         Me.Column2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Column4 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column5 = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.GB_UserData.SuspendLayout()
         Me.GB_NotVisible.SuspendLayout()
         CType(Me.DG_SelectedBox, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -192,7 +195,7 @@ Partial Class AssemblyNumbers
         '
         Me.LabelAppName.AutoSize = True
         Me.LabelAppName.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.LabelAppName.Location = New System.Drawing.Point(228, 19)
+        Me.LabelAppName.Location = New System.Drawing.Point(228, 46)
         Me.LabelAppName.Name = "LabelAppName"
         Me.LabelAppName.Size = New System.Drawing.Size(64, 20)
         Me.LabelAppName.TabIndex = 20
@@ -202,7 +205,7 @@ Partial Class AssemblyNumbers
         '
         Me.L_UserName.AutoSize = True
         Me.L_UserName.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.L_UserName.Location = New System.Drawing.Point(228, 190)
+        Me.L_UserName.Location = New System.Drawing.Point(228, 217)
         Me.L_UserName.Name = "L_UserName"
         Me.L_UserName.Size = New System.Drawing.Size(174, 20)
         Me.L_UserName.TabIndex = 19
@@ -212,7 +215,7 @@ Partial Class AssemblyNumbers
         '
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.Label5.Location = New System.Drawing.Point(51, 190)
+        Me.Label5.Location = New System.Drawing.Point(51, 217)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(174, 20)
         Me.Label5.TabIndex = 19
@@ -222,7 +225,7 @@ Partial Class AssemblyNumbers
         '
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.Label6.Location = New System.Drawing.Point(21, 19)
+        Me.Label6.Location = New System.Drawing.Point(21, 46)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(204, 20)
         Me.Label6.TabIndex = 16
@@ -232,7 +235,7 @@ Partial Class AssemblyNumbers
         '
         Me.Label_StationName.AutoSize = True
         Me.Label_StationName.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.Label_StationName.Location = New System.Drawing.Point(228, 41)
+        Me.Label_StationName.Location = New System.Drawing.Point(228, 68)
         Me.Label_StationName.Name = "Label_StationName"
         Me.Label_StationName.Size = New System.Drawing.Size(33, 20)
         Me.Label_StationName.TabIndex = 16
@@ -242,7 +245,7 @@ Partial Class AssemblyNumbers
         '
         Me.Label7.AutoSize = True
         Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.Label7.Location = New System.Drawing.Point(100, 41)
+        Me.Label7.Location = New System.Drawing.Point(100, 68)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(125, 20)
         Me.Label7.TabIndex = 16
@@ -252,7 +255,7 @@ Partial Class AssemblyNumbers
         '
         Me.L_PalletCapacity.AutoSize = True
         Me.L_PalletCapacity.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.L_PalletCapacity.Location = New System.Drawing.Point(228, 170)
+        Me.L_PalletCapacity.Location = New System.Drawing.Point(228, 197)
         Me.L_PalletCapacity.Name = "L_PalletCapacity"
         Me.L_PalletCapacity.Size = New System.Drawing.Size(123, 20)
         Me.L_PalletCapacity.TabIndex = 16
@@ -262,7 +265,7 @@ Partial Class AssemblyNumbers
         '
         Me.L_BoxCapacity.AutoSize = True
         Me.L_BoxCapacity.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.L_BoxCapacity.Location = New System.Drawing.Point(228, 148)
+        Me.L_BoxCapacity.Location = New System.Drawing.Point(228, 175)
         Me.L_BoxCapacity.Name = "L_BoxCapacity"
         Me.L_BoxCapacity.Size = New System.Drawing.Size(108, 20)
         Me.L_BoxCapacity.TabIndex = 16
@@ -272,7 +275,7 @@ Partial Class AssemblyNumbers
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.Label4.Location = New System.Drawing.Point(61, 170)
+        Me.Label4.Location = New System.Drawing.Point(61, 197)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(164, 20)
         Me.Label4.TabIndex = 16
@@ -282,7 +285,7 @@ Partial Class AssemblyNumbers
         '
         Me.L_Model.AutoSize = True
         Me.L_Model.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.L_Model.Location = New System.Drawing.Point(228, 126)
+        Me.L_Model.Location = New System.Drawing.Point(228, 153)
         Me.L_Model.Name = "L_Model"
         Me.L_Model.Size = New System.Drawing.Size(57, 20)
         Me.L_Model.TabIndex = 16
@@ -666,7 +669,7 @@ Partial Class AssemblyNumbers
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.Label3.Location = New System.Drawing.Point(47, 148)
+        Me.Label3.Location = New System.Drawing.Point(47, 175)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(178, 20)
         Me.Label3.TabIndex = 16
@@ -699,7 +702,7 @@ Partial Class AssemblyNumbers
         DataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.DG_UpLog.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle22
         Me.DG_UpLog.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DG_UpLog.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column2, Me.Column3, Me.Column4})
+        Me.DG_UpLog.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column2, Me.Column3, Me.Column4, Me.Column5})
         DataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle23.BackColor = System.Drawing.SystemColors.Window
         DataGridViewCellStyle23.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
@@ -836,6 +839,8 @@ Partial Class AssemblyNumbers
         '
         'GroupBox4
         '
+        Me.GroupBox4.Controls.Add(Me.LB_SW_Wers)
+        Me.GroupBox4.Controls.Add(Me.Label10)
         Me.GroupBox4.Controls.Add(Me.LabelAppName)
         Me.GroupBox4.Controls.Add(Me.L_UserName)
         Me.GroupBox4.Controls.Add(Me.Label5)
@@ -857,16 +862,36 @@ Partial Class AssemblyNumbers
         Me.GroupBox4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
         Me.GroupBox4.Location = New System.Drawing.Point(585, 14)
         Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(493, 264)
+        Me.GroupBox4.Size = New System.Drawing.Size(493, 252)
         Me.GroupBox4.TabIndex = 10
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Информация о ЛОТе и станции"
+        '
+        'LB_SW_Wers
+        '
+        Me.LB_SW_Wers.AutoSize = True
+        Me.LB_SW_Wers.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.LB_SW_Wers.Location = New System.Drawing.Point(228, 26)
+        Me.LB_SW_Wers.Name = "LB_SW_Wers"
+        Me.LB_SW_Wers.Size = New System.Drawing.Size(88, 20)
+        Me.LB_SW_Wers.TabIndex = 22
+        Me.LB_SW_Wers.Text = "SW_Wers"
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
+        Me.Label10.Location = New System.Drawing.Point(42, 26)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(183, 20)
+        Me.Label10.TabIndex = 21
+        Me.Label10.Text = "Версия приложения:"
         '
         'Label11
         '
         Me.Label11.AutoSize = True
         Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.Label11.Location = New System.Drawing.Point(144, 126)
+        Me.Label11.Location = New System.Drawing.Point(144, 153)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(81, 20)
         Me.Label11.TabIndex = 16
@@ -876,7 +901,7 @@ Partial Class AssemblyNumbers
         '
         Me.L_LOT.AutoSize = True
         Me.L_LOT.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.L_LOT.Location = New System.Drawing.Point(228, 107)
+        Me.L_LOT.Location = New System.Drawing.Point(228, 134)
         Me.L_LOT.Name = "L_LOT"
         Me.L_LOT.Size = New System.Drawing.Size(42, 20)
         Me.L_LOT.TabIndex = 16
@@ -886,7 +911,7 @@ Partial Class AssemblyNumbers
         '
         Me.Label9.AutoSize = True
         Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.Label9.Location = New System.Drawing.Point(78, 107)
+        Me.Label9.Location = New System.Drawing.Point(78, 134)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(147, 20)
         Me.Label9.TabIndex = 16
@@ -896,7 +921,7 @@ Partial Class AssemblyNumbers
         '
         Me.L_Liter.AutoSize = True
         Me.L_Liter.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.L_Liter.Location = New System.Drawing.Point(228, 85)
+        Me.L_Liter.Location = New System.Drawing.Point(228, 112)
         Me.L_Liter.Name = "L_Liter"
         Me.L_Liter.Size = New System.Drawing.Size(45, 20)
         Me.L_Liter.TabIndex = 16
@@ -906,7 +931,7 @@ Partial Class AssemblyNumbers
         '
         Me.Label8.AutoSize = True
         Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.Label8.Location = New System.Drawing.Point(148, 85)
+        Me.Label8.Location = New System.Drawing.Point(148, 112)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(77, 20)
         Me.Label8.TabIndex = 16
@@ -916,7 +941,7 @@ Partial Class AssemblyNumbers
         '
         Me.Lebel_StationLine.AutoSize = True
         Me.Lebel_StationLine.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.Lebel_StationLine.Location = New System.Drawing.Point(228, 63)
+        Me.Lebel_StationLine.Location = New System.Drawing.Point(228, 90)
         Me.Lebel_StationLine.Name = "Lebel_StationLine"
         Me.Lebel_StationLine.Size = New System.Drawing.Size(43, 20)
         Me.Lebel_StationLine.TabIndex = 16
@@ -926,7 +951,7 @@ Partial Class AssemblyNumbers
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
-        Me.Label1.Location = New System.Drawing.Point(158, 63)
+        Me.Label1.Location = New System.Drawing.Point(158, 90)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(67, 20)
         Me.Label1.TabIndex = 16
@@ -960,11 +985,18 @@ Partial Class AssemblyNumbers
         Me.Column4.ReadOnly = True
         Me.Column4.Width = 90
         '
+        'Column5
+        '
+        Me.Column5.HeaderText = "Комментарий"
+        Me.Column5.Name = "Column5"
+        Me.Column5.ReadOnly = True
+        Me.Column5.Width = 182
+        '
         'AssemblyNumbers
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1960, 853)
+        Me.ClientSize = New System.Drawing.Size(1924, 853)
         Me.Controls.Add(Me.GB_UserData)
         Me.Controls.Add(Me.GB_NotVisible)
         Me.Controls.Add(Me.GB_WorkAria)
@@ -1055,8 +1087,11 @@ Partial Class AssemblyNumbers
     Friend WithEvents Label8 As Label
     Friend WithEvents Lebel_StationLine As Label
     Friend WithEvents Label1 As Label
+    Friend WithEvents LB_SW_Wers As Label
+    Friend WithEvents Label10 As Label
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
     Friend WithEvents Column2 As DataGridViewTextBoxColumn
     Friend WithEvents Column3 As DataGridViewTextBoxColumn
     Friend WithEvents Column4 As DataGridViewTextBoxColumn
+    Friend WithEvents Column5 As DataGridViewTextBoxColumn
 End Class

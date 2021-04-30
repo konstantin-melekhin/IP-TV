@@ -114,11 +114,11 @@ Public Class SettingsForm
         LoadCombo(CB_Line, "Use FAS
             SELECT[LineName]
             FROM [FAS].[dbo].[FAS_Lines] 
-            where [TipeID] <> 1 and [TipeID]!= 4 and [TipeID]!= 6 and LineID != 6 and LineID != 14")
+            where [TipeID] = 3 and [TipeID]!= 4 and [TipeID]!= 6 and LineID != 6 and LineID != 14")
         'загружаем список операций 
         LoadGridFromDB(DG_Steps, "SELECT [ID],[StepName],[Description] FROM [FAS].[dbo].[Ct_StepScan]")
         'Выводим названия шагов в combobox
-        LoadCombo(CB_Steps, "Use FAS SELECT [StepName] FROM [FAS].[dbo].[Ct_StepScan] where [Description] = 'IP-TV'")
+        LoadCombo(CB_Steps, "Use FAS SELECT [StepName] FROM [FAS].[dbo].[Ct_StepScan] where [Description] = 'IP-TV' or ID = 6")
     End Sub
     'Возврат к настройкам станции
     Private Sub BT_CloseLineSet_Click(sender As Object, e As EventArgs) Handles BT_CloseLineSet.Click
@@ -162,6 +162,14 @@ Public Class SettingsForm
                     WF.Show()
                 Case 36
                     Dim WF As New IP_TV_Print(LOTID, IDApp)
+                    WF.Controllabel.Text = ""
+                    WF.Show()
+                Case 37
+                    Dim WF As New Weight_control(LOTID, IDApp)
+                    WF.Controllabel.Text = ""
+                    WF.Show()
+                Case 38
+                    Dim WF As New RePacking(LOTID, IDApp)
                     WF.Controllabel.Text = ""
                     WF.Show()
             End Select

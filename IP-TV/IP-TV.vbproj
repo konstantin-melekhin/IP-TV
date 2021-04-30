@@ -29,7 +29,7 @@
     <UpdateUrl>\\192.168.180.9\ProdSoft\IP_TV\</UpdateUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>11</ApplicationRevision>
+    <ApplicationRevision>16</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -140,6 +140,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="RawPrinterHelper.vb" />
+    <Compile Include="RePacking.Designer.vb">
+      <DependentUpon>RePacking.vb</DependentUpon>
+    </Compile>
+    <Compile Include="RePacking.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="SettingsForm.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -163,7 +169,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Work_Function.vb" />
+    <Compile Include="Weight_control.Designer.vb">
+      <DependentUpon>Weight_control.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Weight_control.vb">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AssemblyNumbers.resx">
@@ -187,8 +198,14 @@
     <EmbeddedResource Include="Quarantine.resx">
       <DependentUpon>Quarantine.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="RePacking.resx">
+      <DependentUpon>RePacking.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SettingsForm.resx">
       <DependentUpon>SettingsForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Weight_control.resx">
+      <DependentUpon>Weight_control.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -257,6 +274,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Print-icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

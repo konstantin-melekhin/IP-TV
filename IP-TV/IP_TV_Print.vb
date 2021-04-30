@@ -4,19 +4,20 @@ Imports System.IO
 Imports Library3
 
 Public Class IP_TV_Print
-
+#Region "Переменные"
     Dim LOTID, IDApp As Integer
     Dim LenSN, StartStepID As Integer, PreStepID As Integer, NextStepID As Integer
     Dim PCInfo As New ArrayList() 'PCInfo = (App_ID, App_Caption, lineID, LineName, StationName,CT_ScanStep)
     Dim LOTInfo As New ArrayList() 'LOTInfo = (Model,LOT,SMTRangeChecked,SMTStartRange,SMTEndRange,ParseLog)
     Dim ShiftCounterInfo, Coordinats As New ArrayList() 'ShiftCounterInfo = (ShiftCounterID,ShiftCounter,LOTCounter)
     Dim PrinterInfo() As String
+#End Region
+#Region "Загрузка рабочей формы"   'Загрузка рабочей формы    
     Public Sub New(LOTIDWF As Integer, IDApp As Integer)
         InitializeComponent()
         Me.LOTID = LOTIDWF
         Me.IDApp = IDApp
     End Sub
-#Region "Загрузка рабочей формы"   'Загрузка рабочей формы
     Private Sub IP_TV_Print_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim myVersion As Version
         If ApplicationDeployment.IsNetworkDeployed Then
@@ -24,10 +25,6 @@ Public Class IP_TV_Print
         End If
         LB_SW_Wers.Text = String.Concat("v", myVersion)
         PrintLabel(Controllabel, "", 12, 234, Color.Red)
-        'вывод версии
-        'MsgBox(Application.CompanyName)
-
-        ''имя компании
         'получение данных о станции
         LoadGridFromDB(DG_StepList, "USE FAS SELECT [ID],[StepName],[Description] FROM [FAS].[dbo].[Ct_StepScan]")
         PCInfo = GetPCInfo(IDApp)
@@ -141,41 +138,64 @@ Public Class IP_TV_Print
     'начало работы приложения FAS Scanning Station
 #Region "Обработка окна ввода серийного номера" 'окно ввода серийного номера платы 
     Dim SNID As Integer
+
     Private Sub SerialTextBox_KeyDown(sender As Object, e As KeyEventArgs) Handles SerialTextBox.KeyDown
+        PrintLabel(Controllabel, "", 12, 234, Color.Red)
         Dim Mess As New ArrayList()
-        If e.KeyCode = Keys.Enter And SerialTextBox.TextLength = LenSN And CB_SelectLabel.SelectedIndex = 0 Then
-            'печать Этикетки 45х8 и 39х19
-            SNID = AddSNToDB(SerialTextBox.Text) ' Z12300502043010009725376
-            If Print(SearchSNForPrint(0), PrinterInfo(1).Split(";")(0), PrinterInfo(1).Split(";")(1), PrinterInfo(1).Split(";")(2), PrinterInfo(1).Split(";")(3)) = True Then
-                If Print(SearchSNForPrint(0), PrinterInfo(2).Split(";")(0), PrinterInfo(1).Split(";")(1), PrinterInfo(1).Split(";")(2), PrinterInfo(1).Split(";")(3)) = True Then
-                    ShiftCounter()
-                    OperLogUpd(SNID, 26, 2, "Этикетки 45х8 и 39х19")
-                    CurrentLogUpdate(ShiftCounterInfo(1), SerialTextBox.Text)
-                    BT_CleareSN_Click(sender, e)
-                End If
-            End If
-        ElseIf e.KeyCode = Keys.Enter And SerialTextBox.TextLength = LenSN And CB_SelectLabel.SelectedIndex = 1 Then
-            'повтор Этикетка 44х21_Rus
-            SNID = AddSNToDB(SerialTextBox.Text)
-            If Print(SearchSNForPrint(0), PrinterInfo(0).Split(";")(0), PrinterInfo(0).Split(";")(1), PrinterInfo(0).Split(";")(2), PrinterInfo(0).Split(";")(3)) = True Then
-                OperLogUpd(SNID, 36, 2, "Этикетка 44х21_Rus_Повтор")
-                CurrentLogUpdate(ShiftCounterInfo(1), SerialTextBox.Text)
-                BT_CleareSN_Click(sender, e)
-            End If
-        ElseIf e.KeyCode = Keys.Enter And SerialTextBox.TextLength = 0 And CB_SelectLabel.SelectedIndex = 1 Then
+#Region "Печать этикетки на FAS Start "
+        If e.KeyCode = Keys.Enter And SerialTextBox.TextLength = 0 And CB_SelectLabel.SelectedIndex = 1 Then
             'печать Этикетка 44х21_Rus
             Dim SNForPrint = SearchSNForPrint(1)
             If Print(SNForPrint, PrinterInfo(0).Split(";")(0), PrinterInfo(0).Split(";")(1), PrinterInfo(0).Split(";")(2), PrinterInfo(0).Split(";")(3)) = True Then
                 ShiftCounter()
                 OperLogUpd(AddSNToDB(SNForPrint(1)), 36, 2, "Этикетка 44х21_Rus")
                 CurrentLogUpdate(ShiftCounterInfo(1), SNForPrint(1))
+                PrintLabel(Controllabel, $"Номер {SerialTextBox.Text} распечатан!", 12, 234, Color.Green)
+            End If
+        ElseIf e.KeyCode = Keys.Enter And SerialTextBox.TextLength = LenSN And CB_SelectLabel.SelectedIndex = 1 Then
+            'повтор Этикетка 44х21_Rus
+            SNID = AddSNToDB(SerialTextBox.Text)
+            Dim _stepArr As ArrayList = New ArrayList(GetPreStep(SNID))
+            If _stepArr.Count = 0 Then
+                PrintLabel(Controllabel, SerialTextBox.Text & " не был зарегистрирован на FAS Start!", 12, 234, Color.Red)
+                SerialTextBox.Enabled = False
+            ElseIf _stepArr.Count > 0 And _stepArr(4) = 36 And _stepArr(5) = 2 Then
+                If Print(SearchSNForPrint(0), PrinterInfo(0).Split(";")(0), PrinterInfo(0).Split(";")(1), PrinterInfo(0).Split(";")(2), PrinterInfo(0).Split(";")(3)) = True Then
+                    OperLogUpd(SNID, 36, 2, "Этикетка 44х21_Rus_Повтор")
+                    CurrentLogUpdate(ShiftCounterInfo(1), SerialTextBox.Text)
+                    PrintLabel(Controllabel, $"Номер {SerialTextBox.Text} распечатан!", 12, 234, Color.Green)
+                    BT_CleareSN_Click(sender, e)
+                End If
+            Else
+                PrintLabel(Controllabel, SerialTextBox.Text & " имеет не верный шаг!", 12, 234, Color.Red)
+                SerialTextBox.Enabled = False
+            End If
+#End Region
+#Region "Печать двух этикеток перед упаковкой"
+        ElseIf e.KeyCode = Keys.Enter And SerialTextBox.TextLength = LenSN And CB_SelectLabel.SelectedIndex = 0 Then
+            'печать Этикетки 45х8 и 39х19
+            SNID = AddSNToDB(SerialTextBox.Text) ' Z12300502043010009725376
+            Dim _stepArr As ArrayList = New ArrayList(GetPreStep(SNID))
+            If _stepArr.Count = 0 Then
+                PrintLabel(Controllabel, SerialTextBox.Text & " не не был зарегистрирован на FAS Start!", 12, 234, Color.Red)
+            ElseIf _stepArr.Count > 0 And _stepArr(4) = 30 And _stepArr(5) = 2 Then
+                If Print(SearchSNForPrint(0), PrinterInfo(1).Split(";")(0), PrinterInfo(1).Split(";")(1), PrinterInfo(1).Split(";")(2), PrinterInfo(1).Split(";")(3)) = True Then
+                    If Print(SearchSNForPrint(0), PrinterInfo(2).Split(";")(0), PrinterInfo(1).Split(";")(1), PrinterInfo(1).Split(";")(2), PrinterInfo(1).Split(";")(3)) = True Then
+                        ShiftCounter()
+                        OperLogUpd(_stepArr(0), _stepArr(2), 26, 2, "Этикетки 45х8 и 39х19")
+                        CurrentLogUpdate(ShiftCounterInfo(1), SerialTextBox.Text)
+                        PrintLabel(Controllabel, $"Номер {SerialTextBox.Text} распечатан!", 12, 234, Color.Green)
+                        BT_CleareSN_Click(sender, e)
+                    End If
+                End If
             End If
         ElseIf e.KeyCode = Keys.Enter Then
-            'если введен не верный номер
-            PrintLabel(Controllabel, SerialTextBox.Text & " не верный номер", 12, 234, Color.Red)
+                'если введен не верный номер
+                PrintLabel(Controllabel, SerialTextBox.Text & " не верный номер", 12, 234, Color.Red)
             SerialTextBox.Enabled = False
             BT_Pause.Focus()
         End If
+#End Region
     End Sub
 #End Region
 #Region "добавляет серийный номер в Ct_FASSN_reg, чтобы создать SNID"
@@ -198,12 +218,29 @@ Public Class IP_TV_Print
                     [StepByID],[LineID],[SNID],[Descriptions])values
                     ({LOTID},{StepID},{StepRes},CURRENT_TIMESTAMP,{ UserInfo(0) },{ PCInfo(2) },{ _SNID },'{ Descr }')")
     End Sub
+    Private Sub OperLogUpd(_PCBID As Integer, _SNID As Integer, StepID As Integer, StepRes As Integer, Descr As String)
+        RunCommand($"insert into [FAS].[dbo].[Ct_OperLog] ([PCBID],[LOTID],[StepID],[TestResultID],[StepDate],
+                    [StepByID],[LineID],[SNID],[Descriptions])values
+                    ({_PCBID},{LOTID},{StepID},{StepRes},CURRENT_TIMESTAMP,{ UserInfo(0) },{ PCInfo(2) },{ _SNID },'{ Descr }')")
+
+    End Sub
+
     'Функция заполнения LogGrid 
     Private Sub CurrentLogUpdate(ShtCounter As Integer, SN As String)
         ' заполняем строку таблицы
         Me.DG_UpLog.Rows.Add(ShtCounter, SN, Date.Now)
         DG_UpLog.Sort(DG_UpLog.Columns(2), System.ComponentModel.ListSortDirection.Descending)
     End Sub
+#End Region
+#Region "Проверка предыдущего шага"
+    Private Function GetPreStep(_SnID As Integer) As ArrayList
+        Dim newArr As ArrayList = New ArrayList(SelectListString($"Use FAS select tt.PCBID,L.Content, tt.SNID, Rg.SN, tt.StepID,tt.TestResultID, tt.StepDate 
+from  (SELECT *, ROW_NUMBER() over(partition by snid order by stepdate desc) num FROM [FAS].[dbo].[Ct_OperLog] ) tt
+Left join Ct_FASSN_reg Rg On Rg.ID = tt.SNID
+Left join SMDCOMPONETS.dbo.LazerBase L On L.IDLaser = tt.PCBID
+where tt.LOTID = {LOTID} and  tt.num = 1 and  SNID  = {_SnID} "))
+        Return newArr
+    End Function
 #End Region
 #Region "Поиск номера для печати"
     Private Function SearchSNForPrint(SerchParametr As Integer) As ArrayList
@@ -252,7 +289,7 @@ Public Class IP_TV_Print
         End If
     End Sub
 #End Region
-    'функция печати
+#Region "функция печати"
     Private Function Print(SNArray As ArrayList, DefPrt As String, LabScenario As Integer, x As Integer, y As Integer)
         If DefPrt <> "" Then
             RawPrinterHelper.SendStringToPrinter(DefPrt, Get_ContentTo_Print(SNArray, LabScenario, x, y))
@@ -283,8 +320,8 @@ Public Class IP_TV_Print
         File.WriteAllLines("C:\IP_TV_LabelSet\Coordinats.csv", PrinterInfo)
         GetCoordinats()
     End Sub
-
-    'Счетчик продукции
+#End Region
+#Region "Счетчик продукции"
     Private Sub ShiftCounter()
         ShiftCounterInfo(1) += 1
         ShiftCounterInfo(2) += 1
@@ -292,6 +329,6 @@ Public Class IP_TV_Print
         LB_LOTCounter.Text = ShiftCounterInfo(2)
         ShiftCounterUpdateCT(PCInfo(4), PCInfo(0), ShiftCounterInfo(0), ShiftCounterInfo(1), ShiftCounterInfo(2))
     End Sub
-
+#End Region
 End Class
 
