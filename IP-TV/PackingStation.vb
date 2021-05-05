@@ -172,6 +172,7 @@ Public Class PackingStation
 #Region "очистка Серийного номера при ошибке"
     Private Sub BT_ClearSN_Click(sender As Object, e As EventArgs) Handles BT_ClearSN.Click
         SerialTextBox.Clear()
+        Controllabel.Text = ""
         SerialTextBox.Enabled = True
         SNBufer = New ArrayList()
         SerialTextBox.Focus()
@@ -225,7 +226,7 @@ Public Class PackingStation
         Dim _stepArr As ArrayList
         If e.KeyCode = Keys.Enter Then 'And (SerialTextBox.TextLength = LenSN_SMT Or SerialTextBox.TextLength = LenSN_FAS) Then
             'определение формата номера
-            If GetFTSN(LOTInfo(12)) = True Then
+            If GetFTSN() = True Then
                 'проверка диапазона номера
                 If CheckRange(SNFormat) = True Then
                     _stepArr = New ArrayList(GetPreStep(SerialTextBox.Text))
@@ -234,11 +235,15 @@ Public Class PackingStation
                     ElseIf _stepArr.Count > 0 And _stepArr(4) = 37 And _stepArr(5) = 2 Then
                         'проверка задвоения и наличия номера в базе
                         If CheckDublicate(_stepArr(2)) = True Then
-                            Dim Mess As String
                             WriteDB(_stepArr)
-                            Mess = $"Приемник {SerialTextBox.Text} { vbCrLf}определен и записан в базу!"
-                            PrintLabel(Controllabel, Mess, 12, 193, Color.Green)
+                            PrintLabel(Controllabel, $"Приемник {SerialTextBox.Text} { vbCrLf}определен и записан в базу!", 12, 193, Color.Green)
                             SerialTextBox.Clear()
+                        End If
+                    ElseIf _stepArr.Count > 0 And _stepArr(4) = 6 And _stepArr(5) = 2 Then
+                        'проверка задвоения и наличия номера в базе
+                        If CheckDublicate(_stepArr(2)) = True Then
+                            PrintLabel(Controllabel, $"Приемник {SerialTextBox.Text} { vbCrLf}имеет статус упакован, но не найден в таблице упакованных!{ vbCrLf}Отложите приемник в сторону, вызовите технолога!", 12, 193, Color.Red)
+                            SerialTextBox.Enabled = False
                         End If
                     Else
                         Dim Mess As String
@@ -253,7 +258,7 @@ Public Class PackingStation
     End Sub
 #End Region
 #Region "1. Определение формата номера"
-    Private Function GetFTSN(SingleSN As Boolean) As Boolean
+    Private Function GetFTSN() As Boolean
         Dim col As Color, Mess As String, Res As Boolean
         SNFormat = New ArrayList()
         SNFormat = GetSNFormat(LOTInfo(3), LOTInfo(8), SerialTextBox.Text, LOTInfo(18), LOTInfo(2), LOTInfo(7))
@@ -263,17 +268,6 @@ Public Class PackingStation
         'SNFormat(1) ' 1 - SMT/ 2 - FAS / 3 - Неопределен
         'SNFormat(2) ' Переменный номер
         'SNFormat(3) ' Текст сообщения
-        If Res = True Then
-            If SingleSN = False Then
-                If SNBufer.Count <> 0 Then
-                    If SNBufer(1) = SerialTextBox.Text Or SNBufer(3) = SerialTextBox.Text Then
-                        Mess = "Этот номер " & SerialTextBox.Text & " уже был отсканирован. " & vbCrLf &
-                            "Сбросьте ошибку и повторите сканирование обоих" & vbCrLf & "номеров платы заново!"
-                        Res = False
-                    End If
-                End If
-            End If
-        End If
         col = If(Res = False, Color.Red, Color.Green)
         PrintLabel(Controllabel, Mess, 12, 193, col)
         SNTBEnabled(Res)
@@ -616,14 +610,17 @@ eJzt1kFu2zAQAEAKOujIJ/Ap7M8oIwcf/YR+xUUPPuYJVdAHREEOYWGC290lKYsSFbSuHRQBFzBkh6sd
 #End Region
 #Region "9. Проверка предыдущего шага и загрузка данных о плате"
     Private Function GetPreStep(_sn As String) As ArrayList
-        Dim newArr As ArrayList = New ArrayList(), _snid As Integer
-        _snid = SelectInt($"USE FAS SELECT [ID] FROM [FAS].[dbo].[Ct_FASSN_reg] where SN = '{_sn}' and LOTID = {LOTID}")
-        newArr = SelectListString($" use FAS
-                select tt.PCBID,L.Content, tt.SNID, Rg.SN, tt.StepID,tt.TestResultID, tt.StepDate 
-                from  (SELECT *, ROW_NUMBER() over(partition by snid order by stepdate desc) num FROM [FAS].[dbo].[Ct_OperLog] ) tt
-                Left join Ct_FASSN_reg Rg On Rg.ID = tt.SNID
-                Left join SMDCOMPONETS.dbo.LazerBase L On L.IDLaser = tt.PCBID
-                where tt.LOTID = {LOTID} and  tt.num = 1 and  SNID  = {_snid}")
+        Dim newArr As ArrayList = New ArrayList(SelectListString($"Use FAS 
+            declare @Snid as integer 
+            Select @Snid = (SELECT [ID] FROM [FAS].[dbo].[Ct_FASSN_reg] where SN = '{_sn}' and LOTID = {LOTID})
+
+            select tt.PCBID,
+            (select Content from SMDCOMPONETS.dbo.LazerBase where IDLaser =  tt.PCBID) ,
+            tt.SNID, 
+            (select SN from Ct_FASSN_reg Rg where ID =  tt.SNID),
+            tt.StepID,tt.TestResultID, tt.StepDate 
+            from  (SELECT *, ROW_NUMBER() over(partition by snid order by stepdate desc) num FROM [FAS].[dbo].[Ct_OperLog] where LOTID = {LOTID} and  SNID  = @Snid) tt
+            where  tt.num = 1 "))
         Return newArr
     End Function
 #End Region

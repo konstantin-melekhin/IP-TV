@@ -342,6 +342,7 @@ Public Class Quarantine
 #Region "10. Кнопка очистки поля ввода номера"
     Private Sub BT_CleareSN_Click(sender As Object, e As EventArgs) Handles BT_CleareSN.Click
         If GB_PCBInfoMode.Visible = False Then
+            PrintLabel(Controllabel, "", Color.Black)
             SerialTextBox.Clear()
             SerialTextBox.Enabled = True
             GB_ErrorCode.Visible = False
@@ -351,6 +352,7 @@ Public Class Quarantine
             TB_Description.Clear()
             SerialTextBox.Focus()
         Else
+            PrintLabel(Controllabel, "", Color.Black)
             TB_GetPCPInfo.Clear()
             TB_GetPCPInfo.Enabled = True
             TB_GetPCPInfo.Focus()
@@ -396,18 +398,22 @@ Public Class Quarantine
         Select Case _Num(2)
             Case 1
                 Return (SelectListString($"use FAS 
-                select tt.PCBID,L.Content, tt.SNID, Rg.SN, tt.StepID,tt.TestResultID, tt.StepDate 
-                from  (SELECT *, ROW_NUMBER() over(partition by pcbid order by stepdate desc) num FROM [FAS].[dbo].[Ct_OperLog] ) tt
-                left join Ct_FASSN_reg Rg On Rg.ID = tt.SNID
-                Left join SMDCOMPONETS.dbo.LazerBase L On L.IDLaser = tt.PCBID
-                where tt.LOTID = {LOTID} and  tt.num = 1 and  PCBID  = {_Num(1)}"))
+                select tt.PCBID,
+                (select Content from SMDCOMPONETS.dbo.LazerBase where IDLaser =  tt.PCBID) ,
+                tt.SNID, 
+                (select SN from Ct_FASSN_reg Rg where ID =  tt.SNID),
+                tt.StepID,tt.TestResultID, tt.StepDate 
+                from  (SELECT *, ROW_NUMBER() over(partition by PCBID order by stepdate desc) num FROM [FAS].[dbo].[Ct_OperLog] where LOTID = {LOTID} and  PCBID  = {_Num(1)}) tt
+                where  tt.num = 1"))
             Case 2
                 Return (SelectListString($"use FAS 
-                select tt.PCBID,L.Content, tt.SNID, Rg.SN, tt.StepID,tt.TestResultID, tt.StepDate 
-                from  (SELECT *, ROW_NUMBER() over(partition by snid order by stepdate desc) num FROM [FAS].[dbo].[Ct_OperLog] ) tt
-                left join Ct_FASSN_reg Rg On Rg.ID = tt.SNID
-                Left join SMDCOMPONETS.dbo.LazerBase L On L.IDLaser = tt.PCBID
-                where tt.LOTID = {LOTID} and  tt.num = 1 and  SNID  = {_Num(1)}"))
+                select tt.PCBID,
+                (select Content from SMDCOMPONETS.dbo.LazerBase where IDLaser =  tt.PCBID) ,
+                tt.SNID, 
+                (select SN from Ct_FASSN_reg Rg where ID =  tt.SNID),
+                tt.StepID,tt.TestResultID, tt.StepDate 
+                from  (SELECT *, ROW_NUMBER() over(partition by snid order by stepdate desc) num FROM [FAS].[dbo].[Ct_OperLog] where LOTID = {LOTID} and  SNID  = {_Num(1)}) tt
+                where  tt.num = 1"))
         End Select
         Return newArr
     End Function

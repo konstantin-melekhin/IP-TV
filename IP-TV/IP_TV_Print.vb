@@ -11,6 +11,7 @@ Public Class IP_TV_Print
     Dim LOTInfo As New ArrayList() 'LOTInfo = (Model,LOT,SMTRangeChecked,SMTStartRange,SMTEndRange,ParseLog)
     Dim ShiftCounterInfo, Coordinats As New ArrayList() 'ShiftCounterInfo = (ShiftCounterID,ShiftCounter,LOTCounter)
     Dim PrinterInfo() As String
+    Dim SNFormat As ArrayList
 #End Region
 #Region "Загрузка рабочей формы"   'Загрузка рабочей формы    
     Public Sub New(LOTIDWF As Integer, IDApp As Integer)
@@ -153,50 +154,80 @@ Public Class IP_TV_Print
                 PrintLabel(Controllabel, $"Номер {SerialTextBox.Text} распечатан!", 12, 234, Color.Green)
             End If
         ElseIf e.KeyCode = Keys.Enter And SerialTextBox.TextLength = LenSN And CB_SelectLabel.SelectedIndex = 1 Then
-            'повтор Этикетка 44х21_Rus
-            SNID = AddSNToDB(SerialTextBox.Text)
-            Dim _stepArr As ArrayList = New ArrayList(GetPreStep(SNID))
-            If _stepArr.Count = 0 Then
-                PrintLabel(Controllabel, SerialTextBox.Text & " не был зарегистрирован на FAS Start!", 12, 234, Color.Red)
-                SerialTextBox.Enabled = False
-            ElseIf _stepArr.Count > 0 And _stepArr(4) = 36 And _stepArr(5) = 2 Then
+            'определение формата номера
+            If GetFTSN() = True Then
+                'повтор Этикетка 44х21_Rus
+                SNID = AddSNToDB(SerialTextBox.Text)
+                Dim _stepArr As ArrayList = New ArrayList(GetPreStep(SNID))
                 If Print(SearchSNForPrint(0), PrinterInfo(0).Split(";")(0), PrinterInfo(0).Split(";")(1), PrinterInfo(0).Split(";")(2), PrinterInfo(0).Split(";")(3)) = True Then
                     OperLogUpd(SNID, 36, 2, "Этикетка 44х21_Rus_Повтор")
                     CurrentLogUpdate(ShiftCounterInfo(1), SerialTextBox.Text)
                     PrintLabel(Controllabel, $"Номер {SerialTextBox.Text} распечатан!", 12, 234, Color.Green)
                     BT_CleareSN_Click(sender, e)
                 End If
-            Else
-                PrintLabel(Controllabel, SerialTextBox.Text & " имеет не верный шаг!", 12, 234, Color.Red)
-                SerialTextBox.Enabled = False
+
+                'If _stepArr.Count = 0 Then
+                '    PrintLabel(Controllabel, SerialTextBox.Text & " не был зарегистрирован на FAS Start!", 12, 234, Color.Red)
+                '    SerialTextBox.Enabled = False
+                'ElseIf _stepArr.Count > 0 And _stepArr(4) = 36 And _stepArr(5) = 2 Then
+                '    If Print(SearchSNForPrint(0), PrinterInfo(0).Split(";")(0), PrinterInfo(0).Split(";")(1), PrinterInfo(0).Split(";")(2), PrinterInfo(0).Split(";")(3)) = True Then
+                '        OperLogUpd(SNID, 36, 2, "Этикетка 44х21_Rus_Повтор")
+                '        CurrentLogUpdate(ShiftCounterInfo(1), SerialTextBox.Text)
+                '        PrintLabel(Controllabel, $"Номер {SerialTextBox.Text} распечатан!", 12, 234, Color.Green)
+                '        BT_CleareSN_Click(sender, e)
+                '    End If
+                'Else
+                '    PrintLabel(Controllabel, SerialTextBox.Text & " имеет не верный шаг!", 12, 234, Color.Red)
+                '    SerialTextBox.Enabled = False
+                'End If
             End If
+
 #End Region
 #Region "Печать двух этикеток перед упаковкой"
         ElseIf e.KeyCode = Keys.Enter And SerialTextBox.TextLength = LenSN And CB_SelectLabel.SelectedIndex = 0 Then
-            'печать Этикетки 45х8 и 39х19
-            SNID = AddSNToDB(SerialTextBox.Text) ' Z12300502043010009725376
-            Dim _stepArr As ArrayList = New ArrayList(GetPreStep(SNID))
-            If _stepArr.Count = 0 Then
-                PrintLabel(Controllabel, SerialTextBox.Text & " не не был зарегистрирован на FAS Start!", 12, 234, Color.Red)
-            ElseIf _stepArr.Count > 0 And _stepArr(4) = 30 And _stepArr(5) = 2 Then
-                If Print(SearchSNForPrint(0), PrinterInfo(1).Split(";")(0), PrinterInfo(1).Split(";")(1), PrinterInfo(1).Split(";")(2), PrinterInfo(1).Split(";")(3)) = True Then
-                    If Print(SearchSNForPrint(0), PrinterInfo(2).Split(";")(0), PrinterInfo(1).Split(";")(1), PrinterInfo(1).Split(";")(2), PrinterInfo(1).Split(";")(3)) = True Then
-                        ShiftCounter()
-                        OperLogUpd(_stepArr(0), _stepArr(2), 26, 2, "Этикетки 45х8 и 39х19")
-                        CurrentLogUpdate(ShiftCounterInfo(1), SerialTextBox.Text)
-                        PrintLabel(Controllabel, $"Номер {SerialTextBox.Text} распечатан!", 12, 234, Color.Green)
-                        BT_CleareSN_Click(sender, e)
+            If GetFTSN() = True Then
+                'печать Этикетки 45х8 и 39х19
+                SNID = AddSNToDB(SerialTextBox.Text) ' Z12300502043010009725376
+                Dim _stepArr As ArrayList = New ArrayList(GetPreStep(SNID))
+                If _stepArr.Count = 0 Then
+                    PrintLabel(Controllabel, SerialTextBox.Text & " не не был зарегистрирован на FAS Start!", 12, 234, Color.Red)
+                    SerialTextBox.Enabled = False
+                ElseIf _stepArr.Count > 0 And _stepArr(4) = 30 And _stepArr(5) = 2 Then
+                    If Print(SearchSNForPrint(0), PrinterInfo(1).Split(";")(0), PrinterInfo(1).Split(";")(1), PrinterInfo(1).Split(";")(2), PrinterInfo(1).Split(";")(3)) = True Then
+                        If Print(SearchSNForPrint(0), PrinterInfo(2).Split(";")(0), PrinterInfo(1).Split(";")(1), PrinterInfo(1).Split(";")(2), PrinterInfo(1).Split(";")(3)) = True Then
+                            ShiftCounter()
+                            OperLogUpd(_stepArr(0), _stepArr(2), 26, 2, "Этикетки 45х8 и 39х19")
+                            CurrentLogUpdate(ShiftCounterInfo(1), SerialTextBox.Text)
+                            PrintLabel(Controllabel, $"Номер {SerialTextBox.Text} распечатан!", 12, 234, Color.Green)
+                            BT_CleareSN_Click(sender, e)
+                        End If
                     End If
+                Else
+                    PrintLabel(Controllabel, SerialTextBox.Text & " имеет не верный шаг!", 12, 234, Color.Red)
+                    SerialTextBox.Enabled = False
                 End If
-            End If
-        ElseIf e.KeyCode = Keys.Enter Then
+            ElseIf e.KeyCode = Keys.Enter Then
                 'если введен не верный номер
                 PrintLabel(Controllabel, SerialTextBox.Text & " не верный номер", 12, 234, Color.Red)
-            SerialTextBox.Enabled = False
-            BT_Pause.Focus()
+                SerialTextBox.Enabled = False
+                BT_Pause.Focus()
+            End If
         End If
 #End Region
     End Sub
+#End Region
+#Region "'1. Определение формата номера"
+    Private Function GetFTSN() As Boolean
+        Dim col As Color, Mess As String, Res As Boolean
+        SNFormat = New ArrayList()
+        SNFormat = GetSNFormat(LOTInfo(3), LOTInfo(8), SerialTextBox.Text, LOTInfo(18), LOTInfo(2), LOTInfo(7))
+        Res = SNFormat(0)
+        Mess = SNFormat(3)
+        col = If(Res = False, Color.Red, Color.Green)
+        PrintLabel(Controllabel, Mess, 12, 193, col)
+        SerialTextBox.Enabled = Res
+        Return Res
+    End Function
 #End Region
 #Region "добавляет серийный номер в Ct_FASSN_reg, чтобы создать SNID"
     Private Function AddSNToDB(SN As String) As Integer
@@ -234,11 +265,14 @@ Public Class IP_TV_Print
 #End Region
 #Region "Проверка предыдущего шага"
     Private Function GetPreStep(_SnID As Integer) As ArrayList
-        Dim newArr As ArrayList = New ArrayList(SelectListString($"Use FAS select tt.PCBID,L.Content, tt.SNID, Rg.SN, tt.StepID,tt.TestResultID, tt.StepDate 
-from  (SELECT *, ROW_NUMBER() over(partition by snid order by stepdate desc) num FROM [FAS].[dbo].[Ct_OperLog] ) tt
-Left join Ct_FASSN_reg Rg On Rg.ID = tt.SNID
-Left join SMDCOMPONETS.dbo.LazerBase L On L.IDLaser = tt.PCBID
-where tt.LOTID = {LOTID} and  tt.num = 1 and  SNID  = {_SnID} "))
+        Dim newArr As ArrayList = New ArrayList(SelectListString($"Use FAS
+select tt.PCBID,
+(select Content from SMDCOMPONETS.dbo.LazerBase where IDLaser =  tt.PCBID) ,
+tt.SNID, 
+(select SN from Ct_FASSN_reg Rg where ID =  tt.SNID),
+tt.StepID,tt.TestResultID, tt.StepDate 
+from  (SELECT *, ROW_NUMBER() over(partition by snid order by stepdate desc) num FROM [FAS].[dbo].[Ct_OperLog] where LOTID = {LOTID} and  SNID  = {_SnID}) tt
+where  tt.num = 1"))
         Return newArr
     End Function
 #End Region
@@ -277,12 +311,14 @@ where tt.LOTID = {LOTID} and  tt.num = 1 and  SNID  = {_SnID} "))
 #Region "Кнопка очистки поля ввода номера"
     Private Sub BT_CleareSN_Click(sender As Object, e As EventArgs) Handles BT_CleareSN.Click
         If GB_PCBInfoMode.Visible = False Then
+            PrintLabel(Controllabel, "", Color.Black)
             SerialTextBox.Clear()
             SerialTextBox.Enabled = True
             DG_UpLog.Visible = True
             TB_Description.Clear()
             SerialTextBox.Focus()
         Else
+            PrintLabel(Controllabel, "", Color.Black)
             TB_GetPCPInfo.Clear()
             TB_GetPCPInfo.Enabled = True
             TB_GetPCPInfo.Focus()

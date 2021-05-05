@@ -152,6 +152,7 @@ Public Class RePacking
 #End Region
 #Region "очистка Серийного номера при ошибке"
     Private Sub BT_ClearSN_Click(sender As Object, e As EventArgs) Handles BT_ClearSN.Click
+        PrintLabel(Controllabel, "", Color.Black)
         SerialTextBox.Clear()
         Controllabel.Text = ""
         SerialTextBox.Enabled = True

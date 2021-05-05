@@ -9,6 +9,7 @@ Public Class Weight_control
     Dim UserInfo As New ArrayList() 'UserInfo = ( UserID, Name, User Group)
     Dim ShiftCounterInfo As New ArrayList() 'ShiftCounterInfo = (ShiftCounterID,ShiftCounter,LOTCounter)
     Dim LenSN, StartStepID As Integer, PreStepID As Integer, NextStepID As Integer
+    Dim SNFormat As ArrayList
 #End Region
 #Region "Load form"
     Public Sub New(LOTIDWF As Integer, IDApp As Integer)
@@ -216,36 +217,76 @@ Public Class Weight_control
     Private Sub SerialTextBox_KeyDown(sender As Object, e As KeyEventArgs) Handles SerialTextBox.KeyDown
         Dim CurW, Msg, _descrp As String, Coll As Color
         If e.KeyCode = Keys.Enter And SerialTextBox.TextLength = LenSN Then
-            SNID = SelectInt("USE FAS SELECT [ID] FROM [FAS].[dbo].[Ct_FASSN_reg] where SN = '" & SerialTextBox.Text & "'")
-            Dim _stepArr As ArrayList = New ArrayList(GetPreStep(SNID))
-            If _stepArr.Count = 0 Then
-                PrintLabel(Controllabel, SerialTextBox.Text & " не не был зарегистрирован на FAS Start!", 12, 234, Color.Red)
-                Return
-            ElseIf _stepArr.Count > 0 And _stepArr(4) = 26 And _stepArr(5) = 2 Then
-                CurW = GetWeight()
-                If CurW > MinW And CurW < MaxW Then
-                    Msg = $"{SerialTextBox.Text}  взвешен,{vbCrLf}Масса приемника {CurW} грамм."
-                    Coll = Color.Green
-                    OperLogUpd(_stepArr(0), _stepArr(2), PCInfo(6), 2, Msg)
-                ElseIf CurW < MinW Then
-                    Msg = $"{SerialTextBox.Text}  взвешен,{vbCrLf}Масса приемника {CurW} меньше минимальной!"
-                    Coll = Color.Red
-                ElseIf CurW > MaxW Then
-                    Msg = $"{SerialTextBox.Text}  взвешен,{vbCrLf}Масса приемника {CurW} больше максимальной!"
-                    Coll = Color.Red
+            'определение формата номера
+            If GetFTSN() = True Then
+                SNID = SelectInt("USE FAS SELECT [ID] FROM [FAS].[dbo].[Ct_FASSN_reg] where SN = '" & SerialTextBox.Text & "'")
+                Dim _stepArr As ArrayList = New ArrayList(GetPreStep(SNID))
+                If _stepArr.Count = 0 Then
+                    PrintLabel(Controllabel, SerialTextBox.Text & " не не был зарегистрирован на FAS Start!", 12, 234, Color.Red)
+                    Return
+                ElseIf _stepArr.Count > 0 And _stepArr(4) = 26 And _stepArr(5) = 2 Then
+                    CurW = GetWeight()
+                    If CurW >= MinW And CurW <= MaxW Then
+                        Msg = $"{SerialTextBox.Text}  взвешен,{vbCrLf}Масса приемника {CurW} грамм."
+                        Coll = Color.Green
+                        OperLogInsert(_stepArr(0), _stepArr(2), PCInfo(6), 2, Msg, CurW, $"{MinW};{MaxW}")
+                    ElseIf CurW < MinW Then
+                        Msg = $"{SerialTextBox.Text}  взвешен,{vbCrLf}Масса приемника {CurW} меньше минимальной!"
+                        Coll = Color.Red
+                    ElseIf CurW > MaxW Then
+                        Msg = $"{SerialTextBox.Text}  взвешен,{vbCrLf}Масса приемника {CurW} больше максимальной!"
+                        Coll = Color.Red
+                    End If
+                    PrintLabel(Controllabel, Msg, 12, 180, Coll)
+                    ShiftCounter()
+                    CurrentLogUpdate(ShiftCounterInfo(1), SerialTextBox.Text, CurW)
+                    SerialTextBox.Clear()
+                ElseIf _stepArr.Count > 0 And _stepArr(4) = 37 And _stepArr(5) = 2 Then
+                    If MsgBox("Повторить взвешивание?", MsgBoxStyle.YesNo, "") = MsgBoxResult.Yes Then
+                        CurW = GetWeight()
+                        If CurW >= MinW And CurW <= MaxW Then
+                            Msg = $"{SerialTextBox.Text}  взвешен, {vbCrLf}Масса приемника {CurW} грамм."
+                            Coll = Color.Green
+                            OperLogUpd(_stepArr(0), _stepArr(2), PCInfo(6), 2, Msg, CurW, $"{MinW};{MaxW}")
+                        ElseIf CurW < MinW Then
+                            Msg = $"{SerialTextBox.Text}  взвешен, {vbCrLf}Масса приемника {CurW} меньше минимальной!"
+                            Coll = Color.Red
+                        ElseIf CurW > MaxW Then
+                            Msg = $"{SerialTextBox.Text}  взвешен, {vbCrLf}Масса приемника {CurW} больше максимальной!"
+                            Coll = Color.Red
+                        End If
+                        PrintLabel(Controllabel, Msg, 12, 180, Coll)
+                        ShiftCounter()
+                        CurrentLogUpdate(ShiftCounterInfo(1), SerialTextBox.Text, CurW)
+                        SerialTextBox.Clear()
+                    End If
+                Else
+                    PrintLabel(Controllabel, SerialTextBox.Text & " имеет не верный шаг!", 12, 234, Color.Red)
+                    SerialTextBox.Enabled = False
                 End If
-                PrintLabel(Controllabel, Msg, 12, 180, Coll)
-                ShiftCounter()
-                CurrentLogUpdate(ShiftCounterInfo(1), SerialTextBox.Text, CurW)
-                SerialTextBox.Clear()
+
+            ElseIf e.KeyCode = Keys.Enter Then
+                'если введен не верный номер
+                PrintLabel(Controllabel, $"{SerialTextBox.Text}  не соответствует шаблону!", 12, 180, Color.Red)
+                SerialTextBox.Enabled = False
+                BT_Pause.Focus()
             End If
-        ElseIf e.KeyCode = Keys.Enter Then
-            'если введен не верный номер
-            PrintLabel(Controllabel, $"{SerialTextBox.Text}  не соответствует шаблону!", 12, 180, Color.Red)
-            SerialTextBox.Enabled = False
-            BT_Pause.Focus()
         End If
+
     End Sub
+#End Region
+#Region "'1. Определение формата номера"
+    Private Function GetFTSN() As Boolean
+        Dim col As Color, Mess As String, Res As Boolean
+        SNFormat = New ArrayList()
+        SNFormat = GetSNFormat(LOTInfo(3), LOTInfo(8), SerialTextBox.Text, LOTInfo(18), LOTInfo(2), LOTInfo(7))
+        Res = SNFormat(0)
+        Mess = SNFormat(3)
+        col = If(Res = False, Color.Red, Color.Green)
+        PrintLabel(Controllabel, Mess, 12, 193, col)
+        SerialTextBox.Enabled = Res
+        Return Res
+    End Function
 #End Region
 #Region "Get SNID from CT_OperLog"
     Private Function AddSNToDB(SN As String) As Integer
@@ -263,6 +304,7 @@ Public Class Weight_control
 #End Region
 #Region "Кнопка очистки поля ввода номера"
     Private Sub BT_CleareSN_Click(sender As Object, e As EventArgs) Handles BT_CleareSN.Click
+        PrintLabel(Controllabel, "", Color.Black)
         SerialTextBox.Clear()
         SerialTextBox.Enabled = True
         SerialTextBox.Focus()
@@ -274,17 +316,18 @@ Public Class Weight_control
                     [StepByID],[LineID],[SNID],[Descriptions])values
                     ({LOTID},{StepID},{StepRes},CURRENT_TIMESTAMP,{ UserInfo(0) },{ PCInfo(2) },{ _SNID },'{ Descr }')")
     End Sub
-    Private Sub OperLogUpd(_PCBID As Integer, _SNID As Integer, StepID As Integer, StepRes As Integer, Descr As String)
+    Private Sub OperLogInsert(_PCBID As Integer, _SNID As Integer, StepID As Integer, StepRes As Integer, Descr As String, weight As Decimal, MinMax As String)
         RunCommand($"insert into [FAS].[dbo].[Ct_OperLog] ([PCBID],[LOTID],[StepID],[TestResultID],[StepDate],
                     [StepByID],[LineID],[SNID],[Descriptions])values
                     ({_PCBID},{LOTID},{StepID},{StepRes},CURRENT_TIMESTAMP,{ UserInfo(0) },{ PCInfo(2) },{ _SNID },'{ Descr }')")
-
+        RunCommand($"insert into [FAS].[dbo].[CT_WeightStation] ([SNID],[CurWght],[WeightDate],[WeightByID],[Deviation],[LOTID]) values({_SNID },{weight},CURRENT_TIMESTAMP,{ UserInfo(0) }, '{MinMax}',{LOTID})")
     End Sub
-    'Private Sub StepResUpd()
-    '    RunCommand($"USE FAS Update [FAS].[dbo].[Ct_StepResult] 
-    '                set StepID = {PCInfo(6)}, TestResult = 2, ScanDate = CURRENT_TIMESTAMP  
-    '                where SNID  =  { SNID }")
-    'End Sub
+    Private Sub OperLogUpd(_PCBID As Integer, _SNID As Integer, StepID As Integer, StepRes As Integer, Descr As String, weight As Decimal, MinMax As String)
+        RunCommand($"insert into [FAS].[dbo].[Ct_OperLog] ([PCBID],[LOTID],[StepID],[TestResultID],[StepDate],
+                    [StepByID],[LineID],[SNID],[Descriptions])values
+                    ({_PCBID},{LOTID},{StepID},{StepRes},CURRENT_TIMESTAMP,{ UserInfo(0) },{ PCInfo(2) },{ _SNID },'{ Descr }')")
+        RunCommand($"update [FAS].[dbo].[CT_WeightStation] SET [CurWght] = {weight},[WeightDate] = CURRENT_TIMESTAMP,[WeightByID]= { UserInfo(0) },[Deviation] = '{MinMax}',[LOTID] = {LOTID} where [SNID] = {_SNID }")
+    End Sub
     'Функция заполнения LogGrid 
     Private Sub CurrentLogUpdate(ShtCounter As Integer, SN As String, Wgt As Integer)
         ' заполняем строку таблицы
@@ -294,11 +337,14 @@ Public Class Weight_control
 #End Region
 #Region "Проверка предыдущего шага"
     Private Function GetPreStep(_SnID As Integer) As ArrayList
-        Dim newArr As ArrayList = New ArrayList(SelectListString($"Use FAS select tt.PCBID,L.Content, tt.SNID, Rg.SN, tt.StepID,tt.TestResultID, tt.StepDate 
-from  (SELECT *, ROW_NUMBER() over(partition by snid order by stepdate desc) num FROM [FAS].[dbo].[Ct_OperLog] ) tt
-Left join Ct_FASSN_reg Rg On Rg.ID = tt.SNID
-Left join SMDCOMPONETS.dbo.LazerBase L On L.IDLaser = tt.PCBID
-where tt.LOTID = {LOTID} and  tt.num = 1 and  SNID  = {_SnID} "))
+        Dim newArr As ArrayList = New ArrayList(SelectListString($"Use FAS 
+select tt.PCBID,
+(select Content from SMDCOMPONETS.dbo.LazerBase where IDLaser =  tt.PCBID) ,
+tt.SNID, 
+(select SN from Ct_FASSN_reg Rg where ID =  tt.SNID),
+tt.StepID,tt.TestResultID, tt.StepDate 
+from  (SELECT *, ROW_NUMBER() over(partition by snid order by stepdate desc) num FROM [FAS].[dbo].[Ct_OperLog] where LOTID = {LOTID} and  SNID  = {_SnID}) tt
+where  tt.num = 1"))
         Return newArr
     End Function
 #End Region

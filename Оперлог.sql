@@ -1,18 +1,19 @@
-Use FAS select tt.PCBID,L.Content, tt.SNID, Rg.SN, tt.StepID,tt.TestResultID 
-from  (SELECT *, ROW_NUMBER() over(partition by pcbid order by stepdate desc) num FROM [FAS].[dbo].[Ct_OperLog]) tt
-left join Ct_FASSN_reg Rg On Rg.ID = tt.SNID
-Left join SMDCOMPONETS.dbo.LazerBase L On L.IDLaser = tt.PCBID
-where tt.LOTID = 20083 and  tt.num = 1 and Content in (
-'3004258GSB62200060565'
-)
+--Use FAS select tt.PCBID,L.Content, tt.SNID, Rg.SN, tt.StepID,tt.TestResultID 
+--from  (SELECT *, ROW_NUMBER() over(partition by pcbid order by stepdate desc) num FROM [FAS].[dbo].[Ct_OperLog]) tt
+--left join Ct_FASSN_reg Rg On Rg.ID = tt.SNID
+--Left join SMDCOMPONETS.dbo.LazerBase L On L.IDLaser = tt.PCBID
+--where tt.LOTID = 20083 and  tt.num = 1 and Content in (
+--'3004258GSB62200060565'
+--)
 
-Use FAS select tt.PCBID,L.Content, tt.SNID, Rg.SN, tt.StepID,tt.TestResultID 
+Use FAS select tt.PCBID,L.Content, tt.SNID, Rg.SN, tt.StepID,tt.TestResultID ,tt.num
 from  (SELECT *, ROW_NUMBER() over(partition by pcbid order by stepdate desc) num FROM [FAS].[dbo].[Ct_OperLog]) tt
 left join Ct_FASSN_reg Rg On Rg.ID = tt.SNID
 Left join SMDCOMPONETS.dbo.LazerBase L On L.IDLaser = tt.PCBID
-left join Ct_FASSN_reg R On R.ID = SNID 
-where tt.LOTID = 20083 and  tt.num = 1 and R.SN in 
-('Z12300502043010009764346',
+left join Ct_FASSN_reg R On R.ID = tt.SNID 
+where tt.LOTID = 20083 and R.SN in 
+(
+'Z12300502043010009764346',
 'Z12300502043010009764374',
 'Z12300502043010009764373',
 'Z12300502043010009764372',

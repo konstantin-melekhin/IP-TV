@@ -298,11 +298,14 @@ Public Class AssemblyNumbers
         If GetPCB_SNID(0) = True Then
             Select Case GetPCB_SNID(2)
                 Case 1
-                    Dim arr As ArrayList = New ArrayList(SelectListString($"Use FAS select tt.PCBID,L.Content, tt.SNID, Rg.SN, tt.StepID,tt.TestResultID 
-                                                    from  (SELECT *, ROW_NUMBER() over(partition by pcbid order by stepdate desc) num FROM [FAS].[dbo].[Ct_OperLog]) tt
-                                                    left join Ct_FASSN_reg Rg On Rg.ID = tt.SNID
-                                                    Left join SMDCOMPONETS.dbo.LazerBase L On L.IDLaser = tt.PCBID
-                                                    where tt.LOTID = {LOTID} and  tt.num = 1 and PCBID = {GetPCB_SNID(1)}"))
+                    Dim arr As ArrayList = New ArrayList(SelectListString($"Use FAS 
+                    select tt.PCBID,
+                    (select Content from SMDCOMPONETS.dbo.LazerBase where IDLaser =  tt.PCBID) ,
+                    tt.SNID, 
+                    (select SN from Ct_FASSN_reg Rg where ID =  tt.SNID),
+                    tt.StepID,tt.TestResultID, tt.StepDate 
+                    from  (SELECT *, ROW_NUMBER() over(partition by PCBid order by stepdate desc) num FROM [FAS].[dbo].[Ct_OperLog] where LOTID = {LOTID} and  PCBID  = {GetPCB_SNID(1)}) tt
+                    where  tt.num = 1 "))
                     If arr.Count > 0 Then
                         If IsDBNull(arr(2)) And arr(4) = 4 And arr(5) = 2 Then
                             Res = True
@@ -321,11 +324,14 @@ Public Class AssemblyNumbers
                         Mess = ""
                     End If
                 Case 2
-                    Dim arr As ArrayList = New ArrayList(SelectListString($"Use FAS Select tt.PCBID,L.Content, tt.SNID, Rg.SN, tt.StepID,tt.TestResultID from  
-                                        (SELECT *, ROW_NUMBER() over(partition by snid order by stepdate desc) num FROM [FAS].[dbo].[Ct_OperLog] Ol) tt
-                                        left join Ct_FASSN_reg Rg On Rg.ID = tt.SNID
-                                        Left join SMDCOMPONETS.dbo.LazerBase L On L.IDLaser = tt.PCBID
-                                        where SNID  = {GetPCB_SNID(1)} and tt.LOTID = {LOTID} and  tt.num = 1 "))
+                    Dim arr As ArrayList = New ArrayList(SelectListString($"Use FAS 
+                    select tt.PCBID,
+                    (select Content from SMDCOMPONETS.dbo.LazerBase where IDLaser =  tt.PCBID) ,
+                    tt.SNID, 
+                    (select SN from Ct_FASSN_reg Rg where ID =  tt.SNID),
+                    tt.StepID,tt.TestResultID, tt.StepDate 
+                    from  (SELECT *, ROW_NUMBER() over(partition by snid order by stepdate desc) num FROM [FAS].[dbo].[Ct_OperLog] where LOTID = {LOTID} and  SNID  = {GetPCB_SNID(1)}) tt
+                    where  tt.num = 1"))
                     If arr.Count > 0 Then
                         If IsDBNull(arr(0)) And (arr(4) = 36 And arr(5) = 2) Or (arr(4) = 28 And arr(5) = 2) Then
                             Res = True
